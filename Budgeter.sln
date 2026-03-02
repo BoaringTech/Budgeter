@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36915.13 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "budgeter.client", "budgeter.client\budgeter.client.esproj", "{7BEDDEDE-688C-F9A5-9CE8-1A72F25B189D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgeter.Server", "Budgeter.Server\Budgeter.Server.csproj", "{C3610918-1E49-40CA-AAB5-25584BA058FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BEDDEDE-688C-F9A5-9CE8-1A72F25B189D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BEDDEDE-688C-F9A5-9CE8-1A72F25B189D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BEDDEDE-688C-F9A5-9CE8-1A72F25B189D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7BEDDEDE-688C-F9A5-9CE8-1A72F25B189D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BEDDEDE-688C-F9A5-9CE8-1A72F25B189D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BEDDEDE-688C-F9A5-9CE8-1A72F25B189D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C3610918-1E49-40CA-AAB5-25584BA058FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3610918-1E49-40CA-AAB5-25584BA058FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3610918-1E49-40CA-AAB5-25584BA058FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3610918-1E49-40CA-AAB5-25584BA058FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C92AF9F5-7258-4125-AD0D-B77841747044}
+	EndGlobalSection
+EndGlobal
