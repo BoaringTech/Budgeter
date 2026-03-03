@@ -1,6 +1,6 @@
-﻿namespace Budgeter.Server.Models
+﻿namespace Budgeter.Server.Entities
 {
-    public record UserModel
+    public class User
     {
         public required int Id { get; set; }
         public required string Name { get; set; }
