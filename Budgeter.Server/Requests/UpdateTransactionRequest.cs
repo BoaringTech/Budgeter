@@ -10,10 +10,11 @@ namespace Budgeter.Server.Requests
     public class UpdateTransactionRequest
     {
         public string? UserName { get; set; }
+        public DateTime? DateTime { get; set; }
         public string? AccountName { get; set; }
         public string? TransactionType { get; set; }
         public string? CategoryName { get; set; }
-        public string? SubCategory { get; set; }
+        public string? SubcategoryName { get; set; }
         [Precision(11, 2)]
         public decimal? Amount { get; set; }
         public bool? Bookmarked { get; set; }

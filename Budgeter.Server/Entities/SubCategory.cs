@@ -1,6 +1,6 @@
 ﻿namespace Budgeter.Server.Entities
 {
-    public class SubCategory
+    public class Subcategory
     {
         public required int Id { get; set; }
         public required string Name { get; set; }

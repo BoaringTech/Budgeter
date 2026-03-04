@@ -1,4 +1,4 @@
-using Budgeter.Server.Models;
+using Budgeter.Server.DTOs;
 using Budgeter.Server.Requests;
 using Budgeter.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,16 +9,16 @@ namespace Budgeter.Server.Controllers
     [Route("[controller]")]
     public class TransactionsController : ControllerBase
     {
-        private readonly ITransactionService _transactionService;
+        private readonly IBudgetRepository _transactionService;
 
-        public TransactionsController(ITransactionService transactionService)
+        public TransactionsController(IBudgetRepository transactionService)
         {
             _transactionService = transactionService;
         }
 
         // GET api/transactions/
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TransactionModel>>> GetTransactions()
+        public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactions()
         {
             var transactions = await _transactionService.GetAllTransactionsAsync();
             return Ok(transactions);
@@ -26,7 +26,7 @@ namespace Budgeter.Server.Controllers
 
         // GET api/transactions/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<TransactionModel>> GetTransaction(int id)
+        public async Task<ActionResult<TransactionDTO>> GetTransaction(int id)
         {
             var transaction = await _transactionService.GetTransactionByIdAsync(id);
 
@@ -38,7 +38,7 @@ namespace Budgeter.Server.Controllers
 
         // GET api/transactions/time?start={start}&end={end}
         [HttpGet("time")]
-        public async Task<ActionResult<IEnumerable<TransactionModel>>> GetTransactionsByDateRange(
+        public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsByDateRange(
             [FromQuery] DateTime start,
             [FromQuery] DateTime end)
         {
@@ -48,7 +48,7 @@ namespace Budgeter.Server.Controllers
 
         // POST api/transactions/
         [HttpPost]
-        public async Task<ActionResult<TransactionModel>> CreateTransaction(CreateTransactionRequest request)
+        public async Task<ActionResult<TransactionDTO>> CreateTransaction(CreateTransactionRequest request)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Budgeter.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTransaction(int id, UpdateTransactionRequest request)
         {
-            TransactionModel? transaction = await _transactionService.UpdateTransactionAsync(id, request);
+            TransactionDTO? transaction = await _transactionService.UpdateTransactionAsync(id, request);
 
             if (transaction == null)
                 return NotFound();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Budgeter.Server.DTOs
 {
-    public record TransactionDTO
+    public class TransactionDTO
     {
         public required int Id { get; set; }
         public string? User { get; set; }

@@ -3,7 +3,7 @@ using Budgeter.Server.Requests;
 
 namespace Budgeter.Server.Services.Interfaces
 {
-    public interface ITransactionService
+    public interface IBudgetRepository
     {
         // CREATE
         Task<TransactionDTO> CreateTransactionAsync(CreateTransactionRequest request);
