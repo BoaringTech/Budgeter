@@ -20,7 +20,7 @@ namespace Budgeter.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactions()
         {
-            var transactions = await _transactionService.GetAllTransactionsAsync();
+            IEnumerable<TransactionDTO> transactions = await _transactionService.GetAllTransactionsAsync();
             return Ok(transactions);
         }
 
@@ -28,7 +28,7 @@ namespace Budgeter.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDTO>> GetTransaction(int id)
         {
-            var transaction = await _transactionService.GetTransactionByIdAsync(id);
+            TransactionDTO? transaction = await _transactionService.GetTransactionByIdAsync(id);
 
             if (transaction == null)
                 return NotFound();
@@ -52,7 +52,7 @@ namespace Budgeter.Server.Controllers
         {
             try
             {
-                var transaction = await _transactionService.CreateTransactionAsync(request);
+                TransactionDTO transaction = await _transactionService.CreateTransactionAsync(request);
                 return CreatedAtAction(nameof(GetTransaction), new { id = transaction.Id }, transaction);
             }
             catch (Exception ex)
@@ -78,7 +78,7 @@ namespace Budgeter.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(int id)
         {
-            var deleted = await _transactionService.DeleteTransactionAsync(id);
+            bool deleted = await _transactionService.DeleteTransactionAsync(id);
 
             if (!deleted)
                 return NotFound();
