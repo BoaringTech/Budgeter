@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import type { Transaction } from "../Interfaces/Transaction";
-import TransactionView from "./TransactionView";
+import TransactionSummaryView from "./TransactionSummaryView";
 
-function DailyTransactionListView() {
+interface props {
+  setSelectedTransactionId: (transaction: number | null) => void;
+}
+
+function DailyTransactionListView({ setSelectedTransactionId }: props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
@@ -17,7 +21,21 @@ function DailyTransactionListView() {
   return (
     <>
       <h1>Transactions</h1>
-      <ul></ul>
+      <ul>
+        {transactions.map((item) => (
+          <li key={item.id} onClick={() => setSelectedTransactionId(item.id)}>
+            <TransactionSummaryView
+              category={item.category}
+              amount={item.amount}
+              merchant={item.merchant}
+              note={item.note}
+            />
+          </li>
+        ))}
+      </ul>
+      <button onClick={() => setSelectedTransactionId(-1)}>
+        Add Transaction
+      </button>
     </>
   );
 }

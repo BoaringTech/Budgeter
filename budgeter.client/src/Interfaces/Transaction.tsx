@@ -9,5 +9,7 @@ export interface Transaction {
   category: string | null;
   subcategory: string | null;
   amount: number;
+  merchant: string | null;
+  bookmarked: boolean;
   note: string | null;
 }

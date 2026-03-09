@@ -1,35 +1,79 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import type { Transaction } from "./Interfaces/Transaction";
+import DailyTransactionListView from "./Components/DailyTransactionListView";
+import TransactionView from "./Components/TransactionView";
+
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedTransactionId, setSelectedTransactionId] = useState<
+    number | null
+  >(null);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
+
+  // Get transaction to display
+  useEffect(() => {
+    // Skip if selectedTransactionId is null
+    if (!selectedTransactionId) {
+      return;
+    }
+
+    // Fetch an existing transaction
+    if (selectedTransactionId > -1) {
+      fetch("/api/transactions/" + selectedTransactionId)
+        .then((response) => response.json())
+        .then((data) => {
+          setSelectedTransaction(data);
+        });
+      return;
+    }
+
+    // Create a new transaction
+    const newTransaction: Transaction = {
+      id: -1,
+      user: null,
+      dateTime: new Date(),
+      account: null,
+      transactionType: "Expense",
+      category: null,
+      subcategory: null,
+      amount: 0,
+      merchant: null,
+      bookmarked: false,
+      note: null,
+    };
+    setSelectedTransaction(newTransaction);
+  }, [selectedTransactionId]);
 
   return (
+    // Display the list of transactions when nothing is selected and loaded
+    // or display the transaction details that is selected and loaded
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {(!selectedTransactionId || !selectedTransaction) && (
+        <DailyTransactionListView
+          setSelectedTransactionId={setSelectedTransactionId}
+        />
+      )}
+      {selectedTransactionId && selectedTransaction && (
+        <TransactionView
+          id={selectedTransaction.id}
+          user={selectedTransaction.user}
+          dateTime={selectedTransaction.dateTime}
+          account={selectedTransaction.account}
+          transactionType={selectedTransaction.transactionType}
+          category={selectedTransaction.category}
+          subcategory={selectedTransaction.subcategory}
+          amount={selectedTransaction.amount}
+          merchant={selectedTransaction.merchant}
+          bookmarked={selectedTransaction.bookmarked}
+          note={selectedTransaction.note}
+          setSelectedTransactionId={setSelectedTransactionId}
+          setSelectedTransaction={setSelectedTransaction}
+        />
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
