@@ -15,13 +15,13 @@ function App() {
   // Get transaction to display
   useEffect(() => {
     // Skip if selectedTransactionId is null
-    if (!selectedTransactionId) {
+    if (selectedTransactionId == null) {
       return;
     }
 
     // Fetch an existing transaction
     if (selectedTransactionId > -1) {
-      fetch("/api/transactions/" + selectedTransactionId)
+      fetch("/transactions/" + selectedTransactionId)
         .then((response) => response.json())
         .then((data) => {
           setSelectedTransaction(data);

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Budgeter.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     public class TransactionsController : ControllerBase
     {
         private readonly IBudgetRepository _transactionService;
@@ -16,7 +16,7 @@ namespace Budgeter.Server.Controllers
             _transactionService = transactionService;
         }
 
-        // GET api/transactions/
+        // GET /transactions/
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactions()
         {
@@ -24,7 +24,7 @@ namespace Budgeter.Server.Controllers
             return Ok(transactions);
         }
 
-        // GET api/transactions/{id}
+        // GET /transactions/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDTO>> GetTransaction(int id)
         {
@@ -36,7 +36,7 @@ namespace Budgeter.Server.Controllers
             return Ok(transaction);
         }
 
-        // GET api/transactions/time?start={start}&end={end}
+        // GET /transactions/time?start={start}&end={end}
         [HttpGet("time")]
         public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsByDateRange(
             [FromQuery] DateTime start,
@@ -46,23 +46,14 @@ namespace Budgeter.Server.Controllers
             return Ok(transactions);
         }
 
-        // POST api/transactions/
+        // POST /transactions
         [HttpPost]
-        public async Task<ActionResult<TransactionDTO>> CreateTransaction(CreateTransactionRequest request)
+        public async Task<ActionResult<TransactionDTO>> CreateTransaction([FromBody]object data)
         {
-            try
-            {
-                TransactionDTO transaction = await _transactionService.CreateTransactionAsync(request);
-                return CreatedAtAction(nameof(GetTransaction), new { id = transaction.Id }, transaction);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception
-                return StatusCode(500, "An error occurred while creating the transaction");
-            }
+            return Ok(new { received = data });
         }
 
-        // PUT api/transactions/{id}
+        // PUT /transactions/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTransaction(int id, UpdateTransactionRequest request)
         {
@@ -74,7 +65,7 @@ namespace Budgeter.Server.Controllers
             return Ok(transaction);
         }
 
-        // DELETE api/transactions/{id}
+        // DELETE /transactions/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(int id)
         {

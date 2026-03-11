@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Budgeter.Server\\Budgeter.Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      },
+      {
+        "Path": "budgeter.client\\budgeter.client.esproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

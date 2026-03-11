@@ -14,8 +14,8 @@ builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
 builder.Services.AddDbContext<BudgeterDbContext>
     (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
 var app = builder.Build();
+
 
 app.UseDefaultFiles();
 app.MapStaticAssets();
@@ -32,3 +32,5 @@ app.MapControllers();
 app.MapFallbackToFile("/index.html");
 
 app.Run();
+
+

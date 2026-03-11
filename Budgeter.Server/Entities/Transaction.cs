@@ -7,7 +7,7 @@ namespace Budgeter.Server.Entities
     {
         public int Id { get; set; }
         public User? User { get; set; }
-        public required DateTime DateTime { get; set; }
+        public required DateTime Date { get; set; }
         public Account? Account { get; set; }
         public required TransactionTypes TransactionType { get; set; }
         public Category? Category { get; set; }

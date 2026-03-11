@@ -21,7 +21,7 @@ namespace Budgeter.Server.Services
         public async Task<IEnumerable<TransactionDTO>> GetAllTransactionsAsync()
         {
             return await _context.Transactions
-                .OrderByDescending(t => t.DateTime)
+                .OrderByDescending(t => t.Date)
                 .Select(t => TranslateTransaction(t))
                 .ToListAsync();
         }
@@ -42,8 +42,8 @@ namespace Budgeter.Server.Services
         {
             return await _context.Transactions
                 .Include(t => t.Category)
-                .Where(t => t.DateTime >= start && t.DateTime <= end)
-                .OrderBy(t => t.DateTime)
+                .Where(t => t.Date >= start && t.Date <= end)
+                .OrderBy(t => t.Date)
                 .Select(t => TranslateTransaction(t))
                 .ToListAsync();
         }
@@ -77,7 +77,7 @@ namespace Budgeter.Server.Services
                 transaction.User = await GetUserAsync(request.UserName);
 
             if (request.DateTime != null)
-                transaction.DateTime = (DateTime)request.DateTime;
+                transaction.Date = (DateTime)request.DateTime;
 
             if(request.AccountName != null)
                 transaction.Account = await GetAccountAsync(request.AccountName);
@@ -121,8 +121,8 @@ namespace Budgeter.Server.Services
             return await _context.Transactions
                 .Where(t => (t.Category != null ? t.Category.Name : string.Empty) == categoryName
                     && t.TransactionType == TransactionTypes.Expense
-                    && t.DateTime >= start
-                    && t.DateTime <= end)
+                    && t.Date >= start
+                    && t.Date <= end)
                 .SumAsync(t => t.Amount);
         }
 
@@ -132,7 +132,7 @@ namespace Budgeter.Server.Services
             {
                 Id = t.Id,
                 User = t.User != null ? t.User.Name : string.Empty,
-                DateTime = t.DateTime,
+                DateTime = t.Date,
                 Account = t.Account != null ? t.Account.Name : string.Empty,
                 TransactionType = t.TransactionType,
                 Category = t.Category != null ? t.Category.Name : string.Empty,
@@ -182,7 +182,7 @@ namespace Budgeter.Server.Services
         {
             Transaction transaction = new Transaction
             {
-                DateTime = request.DateTime,
+                Date = request.DateTime,
                 TransactionType = GetTransactionType(request.TransactionType),
                 Amount = request.Amount,
                 Bookmarked = request.Bookmarked,
