@@ -63,10 +63,10 @@ function TransactionView({
 
     try {
       // POST transaction
-      const response = await fetch("/transactions", {
+      const response = await fetch("/api/transactions", {
         method: "POST",
         headers: {
-          "Content-Type": "applicaiton/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newTransaction),
       });
