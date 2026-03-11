@@ -53,13 +53,13 @@ function TransactionView({
   const [changedNote, setNote] = useState(note);
 
   // Create/Update States
-  const [, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [, setError] = useState(null);
   const [, setSuccess] = useState(false);
 
   // Create Transaction Function
   const createTransaction = async (newTransaction: Transaction) => {
-    setLoading(true);
+    setSaving(true);
     setError(null);
     setSuccess(false);
 
@@ -85,14 +85,14 @@ function TransactionView({
     } catch (err: any) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setSaving(false);
       traverseBack();
     }
   };
 
   // Update Transaction Function
-  const updateTransction = async (newTransaction: Transaction) => {
-    setLoading(true);
+  const updateTransaction = async (newTransaction: Transaction) => {
+    setSaving(true);
     setError(null);
     setSuccess(false);
 
@@ -118,7 +118,7 @@ function TransactionView({
     } catch (err: any) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -138,8 +138,10 @@ function TransactionView({
       note: changedNote,
     };
 
+    if (saving) return;
+
     if (id > -1) {
-      updateTransction(newTransaction);
+      updateTransaction(newTransaction);
     } else {
       createTransaction(newTransaction);
     }
@@ -277,7 +279,9 @@ function TransactionView({
             </td>
           </tr>
           <tr>
-            <button onClick={saveTransaction}>Save</button>
+            <button onClick={saveTransaction}>
+              {!saving ? "Save" : "Saving..."}
+            </button>
             <button onClick={traverseBack}>Cancel</button>
           </tr>
         </tbody>
