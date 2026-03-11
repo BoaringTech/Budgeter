@@ -1,3 +1,4 @@
+using Azure.Core;
 using Budgeter.Server.DTOs;
 using Budgeter.Server.Requests;
 using Budgeter.Server.Services.Interfaces;
@@ -48,9 +49,18 @@ namespace Budgeter.Server.Controllers
 
         // POST /transactions
         [HttpPost]
-        public async Task<ActionResult<TransactionDTO>> CreateTransaction([FromBody]object data)
+        public async Task<ActionResult<TransactionDTO>> CreateTransaction([FromBody]CreateTransactionRequest request)
         {
-            return Ok(new { received = data });
+            try
+            {
+                TransactionDTO transaction = await _transactionService.CreateTransactionAsync(request);
+                return CreatedAtAction(nameof(GetTransaction), new { id = transaction.Id }, transaction);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, "An error occurred while creating the transaction");
+            }
         }
 
         // PUT /transactions/{id}
