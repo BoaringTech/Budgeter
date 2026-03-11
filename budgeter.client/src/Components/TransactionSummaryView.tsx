@@ -7,14 +7,20 @@ interface props {
 
 function TransactionSummaryView({ category, amount, merchant, note }: props) {
   return (
-    <span>
-      <p>{category}</p>
-      <div>
+    <>
+      <td>
+        <p>{category}</p>
+      </td>
+      <td>
         <h3>{merchant}</h3>
+      </td>
+      <td>
         <p>{note}</p>
-      </div>
-      <p>{amount}</p>
-    </span>
+      </td>
+      <td>
+        <p>{amount}</p>
+      </td>
+    </>
   );
 }
 

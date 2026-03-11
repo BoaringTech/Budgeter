@@ -11,6 +11,7 @@ function App() {
   >(null);
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
+  const [refreshDate, setRefreshDate] = useState(new Date());
 
   // Get transaction to display
   useEffect(() => {
@@ -53,6 +54,7 @@ function App() {
       {(!selectedTransactionId || !selectedTransaction) && (
         <DailyTransactionListView
           setSelectedTransactionId={setSelectedTransactionId}
+          refreshTrigger={refreshDate}
         />
       )}
       {selectedTransactionId && selectedTransaction && (
@@ -70,6 +72,7 @@ function App() {
           note={selectedTransaction.note}
           setSelectedTransactionId={setSelectedTransactionId}
           setSelectedTransaction={setSelectedTransaction}
+          setRefreshDate={setRefreshDate}
         />
       )}
     </>

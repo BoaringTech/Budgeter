@@ -20,6 +20,7 @@ interface props {
   note: string | null;
   setSelectedTransactionId: (id: number | null) => void;
   setSelectedTransaction: (transaction: Transaction | null) => void;
+  setRefreshDate: (date: Date) => void;
 }
 
 function TransactionView({
@@ -36,6 +37,7 @@ function TransactionView({
   note,
   setSelectedTransactionId,
   setSelectedTransaction,
+  setRefreshDate,
 }: props) {
   // Transaction States
   const [changedUser, setUser] = useState(user);
@@ -84,6 +86,7 @@ function TransactionView({
       setError(err.message);
     } finally {
       setLoading(false);
+      traverseBack();
     }
   };
 
@@ -140,9 +143,12 @@ function TransactionView({
     } else {
       createTransaction(newTransaction);
     }
+  };
 
+  const traverseBack = () => {
     setSelectedTransactionId(-1);
     setSelectedTransaction(null);
+    setRefreshDate(new Date());
   };
 
   return (
@@ -249,6 +255,7 @@ function TransactionView({
         />
       </span>
       <button onClick={saveTransaction}>Save</button>
+      <button onClick={traverseBack}>Cancel</button>
     </>
   );
 }

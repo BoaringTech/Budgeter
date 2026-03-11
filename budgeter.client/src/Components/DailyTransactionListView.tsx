@@ -4,9 +4,13 @@ import TransactionSummaryView from "./TransactionSummaryView";
 
 interface props {
   setSelectedTransactionId: (transaction: number | null) => void;
+  refreshTrigger: Date;
 }
 
-function DailyTransactionListView({ setSelectedTransactionId }: props) {
+function DailyTransactionListView({
+  setSelectedTransactionId,
+  refreshTrigger,
+}: props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
@@ -16,23 +20,25 @@ function DailyTransactionListView({ setSelectedTransactionId }: props) {
       .then((data) => {
         setTransactions(data);
       });
-  }, []);
+  }, [refreshTrigger]);
 
   return (
     <>
       <h1>Transactions</h1>
-      <ul>
-        {transactions.map((item) => (
-          <li key={item.id} onClick={() => setSelectedTransactionId(item.id)}>
-            <TransactionSummaryView
-              category={item.category}
-              amount={item.amount}
-              merchant={item.merchant}
-              note={item.note}
-            />
-          </li>
-        ))}
-      </ul>
+      <table>
+        <tbody>
+          {transactions.map((item) => (
+            <tr key={item.id} onClick={() => setSelectedTransactionId(item.id)}>
+              <TransactionSummaryView
+                category={item.category}
+                amount={item.amount}
+                merchant={item.merchant}
+                note={item.note}
+              />
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <button onClick={() => setSelectedTransactionId(-1)}>
         Add Transaction
       </button>
