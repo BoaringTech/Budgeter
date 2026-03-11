@@ -154,108 +154,134 @@ function TransactionView({
   return (
     <>
       <h1>Transaction</h1>
-      <span>
-        <button
-          disabled={changedTransactionType === "Income"}
-          onClick={() => setTransactionType("Income")}
-        >
-          Income
-        </button>
-        <button
-          disabled={changedTransactionType === "Expense"}
-          onClick={() => setTransactionType("Expense")}
-        >
-          Expense
-        </button>
-        <button
-          disabled={changedTransactionType === "Transfer"}
-          onClick={() => setTransactionType("Transfer")}
-        >
-          Transfer
-        </button>
-      </span>
-      <span>
-        <label>Date</label>
-        <DatePicker
-          selected={changedDateTime}
-          showTimeSelect
-          onChange={(date: Date | null) => setDateTime(SetDateAssumeNow(date))}
-        />
-      </span>
-      <span>
-        <label>User</label>
-        <input
-          name="User"
-          type="text"
-          value={changedUser || ""}
-          onChange={(e) => setUser(e.target.value)}
-        />
-      </span>
-      <span>
-        <label>Account</label>
-        <input
-          name="Account"
-          type="text"
-          value={changedAccount || ""}
-          onChange={(e) => setAccount(e.target.value)}
-        />
-      </span>
-      <span>
-        <label>Category</label>
-        <input
-          name="Category"
-          type="text"
-          value={changedCategory || ""}
-          onChange={(e) => setCategory(e.target.value)}
-        />
-      </span>
-      <span>
-        <label>Subcategory</label>
-        <input
-          name="Subcategory"
-          type="text"
-          value={changedSubcategory || ""}
-          onChange={(e) => setSubcategory(e.target.value)}
-        />
-      </span>
-      <span>
-        <label>Amount</label>
-        <input
-          name="Amount"
-          type="number"
-          value={changedAmount || 0}
-          onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
-        />
-      </span>
-      <span>
-        <label>Merchant</label>
-        <input
-          name="Merchant"
-          type="text"
-          value={changedMerchant || ""}
-          onChange={(e) => setMerchant(e.target.value)}
-        />
-      </span>
-      <span>
-        <label>Note</label>
-        <input
-          name="Note"
-          type="text"
-          value={changedNote || ""}
-          onChange={(e) => setNote(e.target.value)}
-        />
-      </span>
-      <span>
-        <label>Bookmark</label>
-        <input
-          name="Bookmark"
-          type="checkbox"
-          checked={changedBookmarked}
-          onChange={(e) => setBookmarked(OnCheckboxChanged(e))}
-        />
-      </span>
-      <button onClick={saveTransaction}>Save</button>
-      <button onClick={traverseBack}>Cancel</button>
+      <table>
+        <tbody>
+          <tr>
+            <button
+              disabled={changedTransactionType === "Income"}
+              onClick={() => setTransactionType("Income")}
+            >
+              Income
+            </button>
+            <button
+              disabled={changedTransactionType === "Expense"}
+              onClick={() => setTransactionType("Expense")}
+            >
+              Expense
+            </button>
+            <button
+              disabled={changedTransactionType === "Transfer"}
+              onClick={() => setTransactionType("Transfer")}
+            >
+              Transfer
+            </button>
+          </tr>
+          <tr>
+            <thead>Date</thead>
+            <td>
+              <DatePicker
+                selected={changedDateTime}
+                showTimeSelect
+                onChange={(date: Date | null) =>
+                  setDateTime(SetDateAssumeNow(date))
+                }
+              />
+            </td>
+          </tr>
+          <tr>
+            <thead>User</thead>
+            <td>
+              <input
+                name="User"
+                type="text"
+                value={changedUser || ""}
+                onChange={(e) => setUser(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <thead>Account</thead>
+            <td>
+              <input
+                name="Account"
+                type="text"
+                value={changedAccount || ""}
+                onChange={(e) => setAccount(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <thead>Category</thead>
+            <td>
+              <input
+                name="Category"
+                type="text"
+                value={changedCategory || ""}
+                onChange={(e) => setCategory(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <thead>Subcatgoery</thead>
+            <td>
+              <input
+                name="Subcategory"
+                type="text"
+                value={changedSubcategory || ""}
+                onChange={(e) => setSubcategory(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <thead>Amount</thead>
+            <td>
+              <input
+                name="Amount"
+                type="number"
+                value={changedAmount || 0}
+                onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <thead>Merchant</thead>
+            <td>
+              <input
+                name="Merchant"
+                type="text"
+                value={changedMerchant || ""}
+                onChange={(e) => setMerchant(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <thead>Note</thead>
+            <td>
+              <input
+                name="Note"
+                type="text"
+                value={changedNote || ""}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <thead>Bookmark</thead>
+            <td>
+              <input
+                name="Bookmark"
+                type="checkbox"
+                checked={changedBookmarked}
+                onChange={(e) => setBookmarked(OnCheckboxChanged(e))}
+              />
+            </td>
+          </tr>
+          <tr>
+            <button onClick={saveTransaction}>Save</button>
+            <button onClick={traverseBack}>Cancel</button>
+          </tr>
+        </tbody>
+      </table>
     </>
   );
 }
