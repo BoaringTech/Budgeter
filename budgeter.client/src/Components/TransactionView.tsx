@@ -156,9 +156,9 @@ function TransactionView({
   return (
     <>
       <h1>Transaction</h1>
-      <table>
-        <tbody>
-          <tr>
+      <main>
+        <form>
+          <tr className="transactionFormButtons">
             <button
               disabled={changedTransactionType === "Income"}
               onClick={() => setTransactionType("Income")}
@@ -179,11 +179,12 @@ function TransactionView({
             </button>
           </tr>
           <tr>
-            <thead>Date</thead>
+            <th className="label">Date</th>
             <td>
               <DatePicker
                 selected={changedDateTime}
                 showTimeSelect
+                dropdownMode="select"
                 onChange={(date: Date | null) =>
                   setDateTime(SetDateAssumeNow(date))
                 }
@@ -191,7 +192,7 @@ function TransactionView({
             </td>
           </tr>
           <tr>
-            <thead>User</thead>
+            <th className="label">User</th>
             <td>
               <input
                 name="User"
@@ -202,8 +203,8 @@ function TransactionView({
             </td>
           </tr>
           <tr>
-            <thead>Account</thead>
-            <td>
+            <th className="label">Account</th>
+            <td className="input">
               <input
                 name="Account"
                 type="text"
@@ -213,7 +214,7 @@ function TransactionView({
             </td>
           </tr>
           <tr>
-            <thead>Category</thead>
+            <th className="label">Category</th>
             <td>
               <input
                 name="Category"
@@ -224,7 +225,7 @@ function TransactionView({
             </td>
           </tr>
           <tr>
-            <thead>Subcatgoery</thead>
+            <th className="label">Subcategory</th>
             <td>
               <input
                 name="Subcategory"
@@ -235,7 +236,7 @@ function TransactionView({
             </td>
           </tr>
           <tr>
-            <thead>Amount</thead>
+            <th className="label">Amount</th>
             <td>
               <input
                 name="Amount"
@@ -246,7 +247,7 @@ function TransactionView({
             </td>
           </tr>
           <tr>
-            <thead>Merchant</thead>
+            <th className="label">Merchant</th>
             <td>
               <input
                 name="Merchant"
@@ -257,7 +258,7 @@ function TransactionView({
             </td>
           </tr>
           <tr>
-            <thead>Note</thead>
+            <th className="label">Note</th>
             <td>
               <input
                 name="Note"
@@ -268,7 +269,7 @@ function TransactionView({
             </td>
           </tr>
           <tr>
-            <thead>Bookmark</thead>
+            <th className="label">Bookmark</th>
             <td>
               <input
                 name="Bookmark"
@@ -278,14 +279,14 @@ function TransactionView({
               />
             </td>
           </tr>
-          <tr>
+          <tr className="transactionFormButtons">
             <button onClick={saveTransaction}>
               {!saving ? "Save" : "Saving..."}
             </button>
             <button onClick={traverseBack}>Cancel</button>
           </tr>
-        </tbody>
-      </table>
+        </form>
+      </main>
     </>
   );
 }
@@ -298,29 +299,8 @@ function SetDateAssumeNow(date: Date | null): Date {
   return date;
 }
 
-function SetTimeAssumeNow(time: string | null): Date {
-  if (!time) {
-    return new Date(Date.now());
-  }
-
-  return new Date(time);
-}
-
 function OnCheckboxChanged(e: ChangeEvent<HTMLInputElement>): boolean {
   return e.target.checked;
-}
-
-function CombineDateAndTime(date: Date, time: Date) {
-  return new Date(
-    Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-      time.getUTCHours(),
-      time.getUTCMinutes(),
-      time.getUTCSeconds(),
-    ),
-  );
 }
 
 export default TransactionView;

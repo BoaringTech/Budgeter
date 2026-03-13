@@ -4,6 +4,7 @@ import DailyTransactionListView from "./Components/DailyTransactionListView";
 import TransactionView from "./Components/TransactionView";
 
 import "./App.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
   const [selectedTransactionId, setSelectedTransactionId] = useState<
