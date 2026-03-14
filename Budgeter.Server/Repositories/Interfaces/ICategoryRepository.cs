@@ -1,4 +1,5 @@
 ﻿using Budgeter.Server.DTOs;
+using Budgeter.Server.Entities;
 using Budgeter.Server.Requests;
 
 namespace Budgeter.Server.Repositories.Interfaces
@@ -10,6 +11,7 @@ namespace Budgeter.Server.Repositories.Interfaces
 
         // READ
         Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync();
+        Task<Category?> GetCategoryByNameAsync(string name);
 
         // UPDATE
         Task<CategoryDTO?> UpdateCategoryAsync(int id, UpdateCategoryRequest request);

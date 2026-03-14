@@ -3,6 +3,7 @@ using Budgeter.Server.Entities;
 using Budgeter.Server.Enums;
 using Budgeter.Server.Repositories.Interfaces;
 using Budgeter.Server.Requests;
+using Budgeter.Server.Services;
 using Budgeter.Server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,6 +49,17 @@ namespace Budgeter.Server.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Category?> GetCategoryByNameAsync(string name)
+        {
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(c => c.Name == name);
+
+            if (category == null)
+                return null;
+
+            return category;
+        }
+
         public async Task<CategoryDTO?> UpdateCategoryAsync(int id, UpdateCategoryRequest request)
         {
             Category? category = await _context.Categories
@@ -81,7 +93,6 @@ namespace Budgeter.Server.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-
 
         private Category CreateCategoryObjectAsync(CreateCategoryRequest request)
         {

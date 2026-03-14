@@ -4,6 +4,7 @@ using Budgeter.Server.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Budgeter.Server.Migrations
 {
     [DbContext(typeof(BudgeterDbContext))]
-    partial class BudgeterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260314202310_UpdateSubcategoryWithOrder")]
+    partial class UpdateSubcategoryWithOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
