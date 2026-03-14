@@ -1,18 +1,18 @@
 ﻿using Budgeter.Server.DTOs;
 using Budgeter.Server.Entities;
 using Budgeter.Server.Enums;
+using Budgeter.Server.Repositories.Interfaces;
 using Budgeter.Server.Requests;
-using Budgeter.Server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Budgeter.Server.Services
+namespace Budgeter.Server.Repositories
 {
-    public class BudgetRepository : IBudgetRepository
+    public class TransactionRepository : ITransactionRepository
     {
         private readonly BudgeterDbContext _context;
-        private readonly ILogger<BudgetRepository> _logger;
+        private readonly ILogger<TransactionRepository> _logger;
 
-        public BudgetRepository(BudgeterDbContext context, ILogger<BudgetRepository> logger)
+        public TransactionRepository(BudgeterDbContext context, ILogger<TransactionRepository> logger)
         {
             _context = context;
             _logger = logger;

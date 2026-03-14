@@ -1,9 +1,9 @@
 ﻿using Budgeter.Server.DTOs;
 using Budgeter.Server.Requests;
 
-namespace Budgeter.Server.Services.Interfaces
+namespace Budgeter.Server.Repositories.Interfaces
 {
-    public interface IBudgetRepository
+    public interface ITransactionRepository
     {
         // CREATE
         Task<TransactionDTO> CreateTransactionAsync(CreateTransactionRequest request);

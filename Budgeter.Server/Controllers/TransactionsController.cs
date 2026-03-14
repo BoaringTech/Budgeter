@@ -1,7 +1,7 @@
 using Azure.Core;
 using Budgeter.Server.DTOs;
+using Budgeter.Server.Repositories.Interfaces;
 using Budgeter.Server.Requests;
-using Budgeter.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Budgeter.Server.Controllers
@@ -10,9 +10,9 @@ namespace Budgeter.Server.Controllers
     [Route("/api/[controller]")]
     public class TransactionsController : ControllerBase
     {
-        private readonly IBudgetRepository _transactionService;
+        private readonly ITransactionRepository _transactionService;
 
-        public TransactionsController(IBudgetRepository transactionService)
+        public TransactionsController(ITransactionRepository transactionService)
         {
             _transactionService = transactionService;
         }
