@@ -24,6 +24,22 @@ namespace Budgeter.Server.Repositories
             
         }
 
+
+        public async Task<TransactionDTO> CreateTransactionAsync(CreateTransactionRequest request)
+        {
+            Transaction transaction = await CreateTransactionObjectAsync(request);
+
+            _context.Transactions.Add(transaction);
+            await _context.SaveChangesAsync();
+
+            // Load the category for the response
+            await _context.Entry(transaction)
+                .Reference(t => t.Category)
+                .LoadAsync();
+
+            return _transactionService.TranslateTransaction(transaction);
+        }
+
         public async Task<IEnumerable<TransactionDTO>> GetAllTransactionsAsync()
         {
             return await _context.Transactions
@@ -52,21 +68,6 @@ namespace Budgeter.Server.Repositories
                 .OrderBy(t => t.Date)
                 .Select(t => _transactionService.TranslateTransaction(t))
                 .ToListAsync();
-        }
-
-        public async Task<TransactionDTO> CreateTransactionAsync(CreateTransactionRequest request)
-        {
-            Transaction transaction = await CreateTransactionObjectAsync(request);
-
-            _context.Transactions.Add(transaction);
-            await _context.SaveChangesAsync();
-
-            // Load the category for the response
-            await _context.Entry(transaction)
-                .Reference(t => t.Category)
-                .LoadAsync();
-
-            return _transactionService.TranslateTransaction(transaction);
         }
 
         public async Task<TransactionDTO?> UpdateTransactionAsync(int id, UpdateTransactionRequest request)
@@ -152,21 +153,6 @@ namespace Budgeter.Server.Repositories
             return await _context.Subcategories.Where(a => a.Name == subcategoryName).FirstOrDefaultAsync();
         }
 
-        private TransactionTypes GetTransactionType(string transactionType)
-        {
-            if (transactionType is null)
-            {
-                throw new ArgumentNullException(nameof(transactionType) + " cannot be null.");
-            }
-
-            if (Enum.TryParse(transactionType, out TransactionTypes type))
-            {
-                return type;
-            }
-
-            throw new ArgumentException(nameof(transactionType) + " is not a valid value. Value: " + transactionType);
-        }
-
         private async Task<Transaction> CreateTransactionObjectAsync(CreateTransactionRequest request)
         {
             Transaction transaction = new Transaction
@@ -201,5 +187,19 @@ namespace Budgeter.Server.Repositories
             return transaction;
         }
 
+        private TransactionTypes GetTransactionType(string transactionType)
+        {
+            if (transactionType is null)
+            {
+                throw new ArgumentNullException(nameof(transactionType) + " cannot be null.");
+            }
+
+            if (Enum.TryParse(transactionType, out TransactionTypes type))
+            {
+                return type;
+            }
+
+            throw new ArgumentException(nameof(transactionType) + " is not a valid value. Value: " + transactionType);
+        }
     }
 }

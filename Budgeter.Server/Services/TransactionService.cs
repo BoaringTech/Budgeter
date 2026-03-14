@@ -1,10 +1,11 @@
 ﻿using Budgeter.Server.DTOs;
 using Budgeter.Server.Entities;
+using Budgeter.Server.Services.Interfaces;
 
 
 namespace Budgeter.Server.Services
 {
-    public class TransactionService
+    public class TransactionService : ITransactionService
     {
         public TransactionDTO TranslateTransaction(Transaction t)
         {
