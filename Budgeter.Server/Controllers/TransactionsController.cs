@@ -1,4 +1,3 @@
-using Azure.Core;
 using Budgeter.Server.DTOs;
 using Budgeter.Server.Repositories.Interfaces;
 using Budgeter.Server.Requests;
@@ -54,7 +53,7 @@ namespace Budgeter.Server.Controllers
             try
             {
                 TransactionDTO transaction = await _transactionService.CreateTransactionAsync(request);
-                return CreatedAtAction(nameof(GetTransaction), new { id = transaction.Id }, transaction);
+                return CreatedAtAction(nameof(CreateTransaction), new { id = transaction.Id }, transaction);
             }
             catch (Exception ex)
             {
