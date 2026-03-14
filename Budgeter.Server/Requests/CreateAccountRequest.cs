@@ -1,8 +1,7 @@
-﻿namespace Budgeter.Server.Entities
+﻿namespace Budgeter.Server.Requests
 {
-    public class Account
+    public class CreateAccountRequest
     {
-        public int Id { get; set; }
         public required string Name { get; set; }
         public required int Order { get; set; }
     }
