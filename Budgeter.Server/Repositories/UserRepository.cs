@@ -11,19 +11,16 @@ namespace Budgeter.Server.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly BudgeterDbContext _context;
-        private readonly IUserService _userService;
         private readonly ILogger<UserRepository> _logger;
 
         public UserRepository(BudgeterDbContext context,
-            IUserService userService,
             ILogger<UserRepository> logger)
         {
             _context = context;
-            _userService = userService;
             _logger = logger;
         }
 
-        public async Task<UserDTO> CreateUserAsync(CreateUserRequest request)
+        public async Task<User> CreateUserAsync(CreateUserRequest request)
         {
             User user = CreateUserObjectAsync(request);
 
@@ -35,18 +32,17 @@ namespace Budgeter.Server.Repositories
                 .Reference(u => u.Name)
                 .LoadAsync();
 
-            return _userService.TranslateUser(user);
+            return user;
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _context.Users
                 .OrderByDescending(u => u.Order)
-                .Select(u => _userService.TranslateUser(u))
                 .ToListAsync();
         }
 
-        public async Task<UserDTO?> UpdateUserAsync(int id, UpdateUserRequest request)
+        public async Task<User?> UpdateUserAsync(int id, UpdateUserRequest request)
         {
             User? user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == id);
@@ -63,7 +59,7 @@ namespace Budgeter.Server.Repositories
 
             await _context.SaveChangesAsync();
 
-            return _userService.TranslateUser(user);
+            return user;
         }
 
 

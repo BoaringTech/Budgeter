@@ -1,10 +1,7 @@
-﻿using Budgeter.Server.DTOs;
-using Budgeter.Server.Entities;
+﻿using Budgeter.Server.Entities;
 using Budgeter.Server.Enums;
 using Budgeter.Server.Repositories.Interfaces;
 using Budgeter.Server.Requests;
-using Budgeter.Server.Services;
-using Budgeter.Server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Budgeter.Server.Repositories
@@ -12,20 +9,17 @@ namespace Budgeter.Server.Repositories
     public class CategoryRepository : ICategoryRepository
     {
         private readonly BudgeterDbContext _context;
-        private readonly ICategoryService _categoryService;
         private readonly ILogger<CategoryRepository> _logger;
 
         public CategoryRepository(BudgeterDbContext context,
-            ICategoryService categoryService,
             ILogger<CategoryRepository> logger)
         {
             _context = context;
-            _categoryService = categoryService;
             _logger = logger;
 
         }
 
-        public async Task<CategoryDTO> CreateCategoryAsync(CreateCategoryRequest request)
+        public async Task<Category> CreateCategoryAsync(CreateCategoryRequest request)
         {
             Category category = CreateCategoryObjectAsync(request);
 
@@ -37,15 +31,14 @@ namespace Budgeter.Server.Repositories
                 .Reference(c => c.Name)
                 .LoadAsync();
 
-            return _categoryService.TranslateCategory(category);
+            return category;
         }
 
-        public async Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync()
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
             return await _context.Categories
                 .OrderByDescending(c => c.Order)
                 .OrderByDescending(c => c.TransactionType)
-                .Select(c => _categoryService.TranslateCategory(c))
                 .ToListAsync();
         }
 
@@ -60,7 +53,7 @@ namespace Budgeter.Server.Repositories
             return category;
         }
 
-        public async Task<CategoryDTO?> UpdateCategoryAsync(int id, UpdateCategoryRequest request)
+        public async Task<Category?> UpdateCategoryAsync(int id, UpdateCategoryRequest request)
         {
             Category? category = await _context.Categories
                 .FirstOrDefaultAsync(c => c.Id == id);
@@ -80,7 +73,7 @@ namespace Budgeter.Server.Repositories
 
             await _context.SaveChangesAsync();
 
-            return _categoryService.TranslateCategory(category);
+            return category;
         }
 
         public async Task<bool> DeleteCategoryAsync(int id)

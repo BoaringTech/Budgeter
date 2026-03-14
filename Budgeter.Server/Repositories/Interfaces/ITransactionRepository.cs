@@ -1,4 +1,4 @@
-﻿using Budgeter.Server.DTOs;
+﻿using Budgeter.Server.Entities;
 using Budgeter.Server.Requests;
 
 namespace Budgeter.Server.Repositories.Interfaces
@@ -6,15 +6,15 @@ namespace Budgeter.Server.Repositories.Interfaces
     public interface ITransactionRepository
     {
         // CREATE
-        Task<TransactionDTO> CreateTransactionAsync(CreateTransactionRequest request);
+        Task<Transaction> CreateTransactionAsync(CreateTransactionRequest request);
 
         // READ
-        Task<TransactionDTO?> GetTransactionByIdAsync(int id);
-        Task<IEnumerable<TransactionDTO>> GetTransactionsByDateRangeAsync(DateTime start, DateTime end);
-        Task<IEnumerable<TransactionDTO>> GetAllTransactionsAsync();
+        Task<Transaction?> GetTransactionByIdAsync(int id);
+        Task<IEnumerable<Transaction>> GetTransactionsByDateRangeAsync(DateTime start, DateTime end);
+        Task<IEnumerable<Transaction>> GetAllTransactionsAsync();
 
         // UPDATE
-        Task<TransactionDTO?> UpdateTransactionAsync(int id, UpdateTransactionRequest request);
+        Task<Transaction?> UpdateTransactionAsync(int id, UpdateTransactionRequest request);
 
         // DELETE
         Task<bool> DeleteTransactionAsync(int id);

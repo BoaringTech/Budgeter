@@ -7,14 +7,14 @@ namespace Budgeter.Server.Repositories.Interfaces
     public interface ICategoryRepository
     {
         // CREATE
-        Task<CategoryDTO> CreateCategoryAsync(CreateCategoryRequest request);
+        Task<Category> CreateCategoryAsync(CreateCategoryRequest request);
 
         // READ
-        Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync();
+        Task<IEnumerable<Category>> GetAllCategoriesAsync();
         Task<Category?> GetCategoryByNameAsync(string name);
 
         // UPDATE
-        Task<CategoryDTO?> UpdateCategoryAsync(int id, UpdateCategoryRequest request);
+        Task<Category?> UpdateCategoryAsync(int id, UpdateCategoryRequest request);
 
         // DELETE
         Task<bool> DeleteCategoryAsync(int id);

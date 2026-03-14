@@ -1,6 +1,8 @@
 ﻿using Budgeter.Server.DTOs;
+using Budgeter.Server.Entities;
 using Budgeter.Server.Repositories.Interfaces;
 using Budgeter.Server.Requests;
+using Budgeter.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Budgeter.Server.Controllers
@@ -9,29 +11,33 @@ namespace Budgeter.Server.Controllers
     [Route("api/[Controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userService;
+        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
-        public UsersController(IUserRepository userService)
+        public UsersController(IUserService userService, IUserRepository userRepository)
         {
             _userService = userService;
+            _userRepository = userRepository;
         }
 
-        // GET /transactions/
+        // GET /users/
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            IEnumerable<UserDTO> users = await _userService.GetAllUsersAsync();
-            return Ok(users);
+            IEnumerable<User> users = await _userRepository.GetAllUsersAsync();
+            IEnumerable<UserDTO> usersDTO = users.Select(_userService.TranslateUser);
+            return Ok(usersDTO);
         }
 
-        // POST /transactions
+        // POST /users/
         [HttpPost]
         public async Task<ActionResult<UserDTO>> CreateUser([FromBody] CreateUserRequest request)
         {
             try
             {
-                UserDTO user = await _userService.CreateUserAsync(request);
-                return CreatedAtAction(nameof(CreateUser), new { id = user.Id }, user);
+                User user = await _userRepository.CreateUserAsync(request);
+                UserDTO userDTO = _userService.TranslateUser(user);
+                return CreatedAtAction(nameof(CreateUser), new { id = userDTO.Id }, userDTO);
             }
             catch (Exception ex)
             {
@@ -40,23 +46,25 @@ namespace Budgeter.Server.Controllers
             }
         }
 
-        // PUT /transactions/{id}
+        // PUT /users/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UpdateUserRequest request)
         {
-            UserDTO? user = await _userService.UpdateUserAsync(id, request);
+            User? user = await _userRepository.UpdateUserAsync(id, request);
 
             if (user == null)
                 return NotFound();
 
-            return Ok(user);
+            UserDTO userDTO = _userService.TranslateUser(user);
+
+            return Ok(userDTO);
         }
 
-        // DELETE /transactions/{id}
+        // DELETE /users/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            bool deleted = await _userService.DeleteUserAsync(id);
+            bool deleted = await _userRepository.DeleteUserAsync(id);
 
             if (!deleted)
                 return NotFound();

@@ -1,6 +1,8 @@
 ﻿using Budgeter.Server.DTOs;
+using Budgeter.Server.Entities;
 using Budgeter.Server.Repositories.Interfaces;
 using Budgeter.Server.Requests;
+using Budgeter.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Budgeter.Server.Controllers
@@ -9,29 +11,33 @@ namespace Budgeter.Server.Controllers
     [Route("/api/[controller]")]
     public class CategoriesController : ControllerBase
     {
-        private readonly ICategoryRepository _categoryService;
+        private readonly ICategoryService _categoryService;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoriesController(ICategoryRepository categoryService)
+        public CategoriesController(ICategoryService categoryService, ICategoryRepository categoryRepository)
         {
             _categoryService = categoryService;
+            _categoryRepository = categoryRepository;
         }
 
         // GET /categories/
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategories()
         {
-            IEnumerable<CategoryDTO> categories = await _categoryService.GetAllCategoriesAsync();
-            return Ok(categories);
+            IEnumerable<Category> categories = await _categoryRepository.GetAllCategoriesAsync();
+            IEnumerable<CategoryDTO> categoriesDTO = categories.Select(_categoryService.TranslateCategory);
+            return Ok(categoriesDTO);
         }
 
-        // POST /transactions
+        // POST /categories/
         [HttpPost]
-        public async Task<ActionResult<TransactionDTO>> CreateCategory([FromBody] CreateCategoryRequest request)
+        public async Task<ActionResult<CategoryDTO>> CreateCategory([FromBody] CreateCategoryRequest request)
         {
             try
             {
-                CategoryDTO category = await _categoryService.CreateCategoryAsync(request);
-                return CreatedAtAction(nameof(CreateCategory), new { id = category.Id }, category);
+                Category category = await _categoryRepository.CreateCategoryAsync(request);
+                CategoryDTO categoryDTO = _categoryService.TranslateCategory(category);
+                return CreatedAtAction(nameof(CreateCategory), new { id = categoryDTO.Id }, categoryDTO);
             }
             catch (Exception ex)
             {
@@ -40,23 +46,25 @@ namespace Budgeter.Server.Controllers
             }
         }
 
-        // PUT /transactions/{id}
+        // PUT /categories/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, UpdateCategoryRequest request)
         {
-            CategoryDTO? category = await _categoryService.UpdateCategoryAsync(id, request);
+            Category? category = await _categoryRepository.UpdateCategoryAsync(id, request);
 
             if (category == null)
                 return NotFound();
 
-            return Ok(category);
+            CategoryDTO categoryDTO = _categoryService.TranslateCategory(category);
+
+            return Ok(categoryDTO);
         }
 
-        // DELETE /transactions/{id}
+        // DELETE /categories/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            bool deleted = await _categoryService.DeleteCategoryAsync(id);
+            bool deleted = await _categoryRepository.DeleteCategoryAsync(id);
 
             if (!deleted)
                 return NotFound();

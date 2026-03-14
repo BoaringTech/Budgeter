@@ -1,8 +1,6 @@
-﻿using Budgeter.Server.DTOs;
-using Budgeter.Server.Entities;
+﻿using Budgeter.Server.Entities;
 using Budgeter.Server.Repositories.Interfaces;
 using Budgeter.Server.Requests;
-using Budgeter.Server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Budgeter.Server.Repositories
@@ -11,22 +9,19 @@ namespace Budgeter.Server.Repositories
     {
 
         private readonly BudgeterDbContext _context;
-        private readonly ISubcategoryService _subcategoryService;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ILogger<SubcategoryRepository> _logger;
 
         public SubcategoryRepository(BudgeterDbContext context,
-            ISubcategoryService subcategoryService,
             ICategoryRepository categoryRepository,
             ILogger<SubcategoryRepository> logger)
         {
             _context = context;
-            _subcategoryService = subcategoryService;
             _categoryRepository = categoryRepository;
             _logger = logger;
 
         }
-        public async Task<SubcategoryDTO> CreateSubcategoryAsync(CreateSubcategoryRequest request)
+        public async Task<Subcategory> CreateSubcategoryAsync(CreateSubcategoryRequest request)
         {
             Subcategory subcategory = await CreateSubcategoryObjectAsync(request);
 
@@ -38,19 +33,18 @@ namespace Budgeter.Server.Repositories
                 .Reference(c => c.Name)
                 .LoadAsync();
 
-            return _subcategoryService.TranslateSubcategory(subcategory);
+            return subcategory;
         }
 
-        public async Task<IEnumerable<SubcategoryDTO>> GetAllSubcategoriesAsync()
+        public async Task<IEnumerable<Subcategory>> GetAllSubcategoriesAsync()
         {
             return await _context.Subcategories
                 .OrderByDescending(s => s.Order)
                 .OrderBy(s => s.Category)
-                .Select(s => _subcategoryService.TranslateSubcategory(s))
                 .ToListAsync();
         }
 
-        public async Task<SubcategoryDTO?> UpdateSubcategoryAsync(int id, UpdateSubcategoryRequest request)
+        public async Task<Subcategory?> UpdateSubcategoryAsync(int id, UpdateSubcategoryRequest request)
         {
             Subcategory? subcategory = await _context.Subcategories
                 .FirstOrDefaultAsync(c => c.Id == id);
@@ -80,7 +74,7 @@ namespace Budgeter.Server.Repositories
 
             await _context.SaveChangesAsync();
 
-            return _subcategoryService.TranslateSubcategory(subcategory);
+            return subcategory;
         }
 
         public async Task<bool> DeleteSubcategoryAsync(int id)

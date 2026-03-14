@@ -1,4 +1,4 @@
-﻿using Budgeter.Server.DTOs;
+﻿using Budgeter.Server.Entities;
 using Budgeter.Server.Requests;
 
 namespace Budgeter.Server.Repositories.Interfaces
@@ -6,13 +6,13 @@ namespace Budgeter.Server.Repositories.Interfaces
     public interface IAccountRepository
     {
         // CREATE
-        Task<AccountDTO> CreateAccountAsync(CreateAccountRequest request);
+        Task<Account> CreateAccountAsync(CreateAccountRequest request);
 
         // READ
-        Task<IEnumerable<AccountDTO>> GetAllAccountsAsync();
+        Task<IEnumerable<Account>> GetAllAccountsAsync();
 
         // UPDATE
-        Task<AccountDTO?> UpdateAccountAsync(int id, UpdateAccountRequest request);
+        Task<Account?> UpdateAccountAsync(int id, UpdateAccountRequest request);
 
         // DELETE
         Task<bool> DeleteAccountAsync(int id);

@@ -1,4 +1,4 @@
-﻿using Budgeter.Server.DTOs;
+﻿using Budgeter.Server.Entities;
 using Budgeter.Server.Requests;
 
 namespace Budgeter.Server.Repositories.Interfaces
@@ -6,13 +6,13 @@ namespace Budgeter.Server.Repositories.Interfaces
     public interface ISubcategoryRepository
     {
         // CREATE
-        Task<SubcategoryDTO> CreateSubcategoryAsync(CreateSubcategoryRequest request);
+        Task<Subcategory> CreateSubcategoryAsync(CreateSubcategoryRequest request);
 
         // READ
-        Task<IEnumerable<SubcategoryDTO>> GetAllSubcategoriesAsync();
+        Task<IEnumerable<Subcategory>> GetAllSubcategoriesAsync();
 
         // UPDATE
-        Task<SubcategoryDTO?> UpdateSubcategoryAsync(int id, UpdateSubcategoryRequest request);
+        Task<Subcategory?> UpdateSubcategoryAsync(int id, UpdateSubcategoryRequest request);
 
         // DELETE
         Task<bool> DeleteSubcategoryAsync(int id);
