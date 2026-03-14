@@ -51,7 +51,7 @@ namespace Budgeter.Server.Repositories
         public async Task<CategoryDTO?> UpdateCategoryAsync(int id, UpdateCategoryRequest request)
         {
             Category? category = await _context.Categories
-                .FirstOrDefaultAsync(t => t.Id == id);
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (category == null)
                 return null;

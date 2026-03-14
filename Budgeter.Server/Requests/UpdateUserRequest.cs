@@ -1,9 +1,8 @@
 ﻿namespace Budgeter.Server.Requests
 {
-    public class UpdateCategoryRequest
+    public class UpdateUserRequest
     {
         public string? Name { get; set; }
-        public string? TransactionType { get; set; }
         public int? Order { get; set; }
     }
 }
