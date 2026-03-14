@@ -3,6 +3,7 @@ using Budgeter.Server.Entities;
 using Budgeter.Server.Enums;
 using Budgeter.Server.Repositories.Interfaces;
 using Budgeter.Server.Requests;
+using Budgeter.Server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Budgeter.Server.Repositories
@@ -10,19 +11,24 @@ namespace Budgeter.Server.Repositories
     public class TransactionRepository : ITransactionRepository
     {
         private readonly BudgeterDbContext _context;
+        private readonly ITransactionService _transactionService;
         private readonly ILogger<TransactionRepository> _logger;
 
-        public TransactionRepository(BudgeterDbContext context, ILogger<TransactionRepository> logger)
+        public TransactionRepository(BudgeterDbContext context, 
+            ITransactionService transactionService, 
+            ILogger<TransactionRepository> logger)
         {
             _context = context;
+            _transactionService = transactionService;
             _logger = logger;
+            
         }
 
         public async Task<IEnumerable<TransactionDTO>> GetAllTransactionsAsync()
         {
             return await _context.Transactions
                 .OrderByDescending(t => t.Date)
-                .Select(t => TranslateTransaction(t))
+                .Select(t => _transactionService.TranslateTransaction(t))
                 .ToListAsync();
         }
 
@@ -35,7 +41,7 @@ namespace Budgeter.Server.Repositories
             if (transaction == null)
                 return null;
 
-            return TranslateTransaction(transaction);
+            return _transactionService.TranslateTransaction(transaction);
         }
 
         public async Task<IEnumerable<TransactionDTO>> GetTransactionsByDateRangeAsync(DateTime start, DateTime end)
@@ -44,7 +50,7 @@ namespace Budgeter.Server.Repositories
                 .Include(t => t.Category)
                 .Where(t => t.Date >= start && t.Date <= end)
                 .OrderBy(t => t.Date)
-                .Select(t => TranslateTransaction(t))
+                .Select(t => _transactionService.TranslateTransaction(t))
                 .ToListAsync();
         }
 
@@ -60,7 +66,7 @@ namespace Budgeter.Server.Repositories
                 .Reference(t => t.Category)
                 .LoadAsync();
 
-            return TranslateTransaction(transaction);
+            return _transactionService.TranslateTransaction(transaction);
         }
 
         public async Task<TransactionDTO?> UpdateTransactionAsync(int id, UpdateTransactionRequest request)
@@ -102,7 +108,7 @@ namespace Budgeter.Server.Repositories
 
             await _context.SaveChangesAsync();
 
-            return TranslateTransaction(transaction);
+            return _transactionService.TranslateTransaction(transaction);
         }
 
         public async Task<bool> DeleteTransactionAsync(int id)
@@ -124,23 +130,6 @@ namespace Budgeter.Server.Repositories
                     && t.Date >= start
                     && t.Date <= end)
                 .SumAsync(t => t.Amount);
-        }
-
-        private static TransactionDTO TranslateTransaction(Transaction t)
-        {
-            return new TransactionDTO
-            {
-                Id = t.Id,
-                User = t.User != null ? t.User.Name : string.Empty,
-                DateTime = t.Date,
-                Account = t.Account != null ? t.Account.Name : string.Empty,
-                TransactionType = t.TransactionType,
-                Category = t.Category != null ? t.Category.Name : string.Empty,
-                SubCategory = t.SubCategory != null ? t.SubCategory.Name : string.Empty,
-                Amount = t.Amount,
-                Bookmarked = t.Bookmarked,
-                Notes = t.Notes
-            };
         }
 
         private async Task<User?> GetUserAsync(string username)
