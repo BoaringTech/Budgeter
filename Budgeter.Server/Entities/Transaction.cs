@@ -21,6 +21,7 @@ namespace Budgeter.Server.Entities
         public required TransactionTypes TransactionType { get; set; }
         [Precision(11, 2)]
         public required decimal Amount { get; set; }
+        public string? Merchant { get; set; }
         public required bool Bookmarked { get; set; }
         public string? Notes { get; set; }
     }

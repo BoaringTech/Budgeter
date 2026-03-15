@@ -19,6 +19,7 @@ namespace Budgeter.Server.Services
                 Category = t.Category != null ? t.Category.Name : string.Empty,
                 SubCategory = t.SubCategory != null ? t.SubCategory.Name : string.Empty,
                 Amount = t.Amount,
+                Merchant = t.Merchant,
                 Bookmarked = t.Bookmarked,
                 Notes = t.Notes
             };

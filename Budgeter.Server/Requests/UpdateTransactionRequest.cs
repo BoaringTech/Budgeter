@@ -17,6 +17,7 @@ namespace Budgeter.Server.Requests
         public string? SubcategoryName { get; set; }
         [Precision(11, 2)]
         public decimal? Amount { get; set; }
+        public string? Merchant { get; set; }
         public bool? Bookmarked { get; set; }
         public string? Notes { get; set; }
     }

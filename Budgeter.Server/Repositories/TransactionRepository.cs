@@ -100,6 +100,9 @@ namespace Budgeter.Server.Repositories
             if (request.Amount.HasValue)
                 transaction.Amount = request.Amount.Value;
 
+            if (request.Merchant != null)
+                transaction.Merchant = request.Merchant;
+
             if (request.Bookmarked != null)
                 transaction.Bookmarked = (bool)request.Bookmarked;
 
@@ -139,6 +142,7 @@ namespace Budgeter.Server.Repositories
                 Date = request.DateTime,
                 TransactionType = GetTransactionType(request.TransactionType),
                 Amount = request.Amount,
+                Merchant = request.Merchant,
                 Bookmarked = request.Bookmarked,
                 Notes = request.Notes
             };
