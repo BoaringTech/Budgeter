@@ -72,6 +72,11 @@ namespace Budgeter.Server.Repositories
             return true;
         }
 
+        public async Task<Account?> GetAccountAsync(string accountName)
+        {
+            return await _context.Accounts.Where(a => a.Name == accountName).FirstOrDefaultAsync();
+        }
+
         private Account CreateAccountObjectAsync(CreateAccountRequest request)
         {
             Account account = new Account

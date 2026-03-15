@@ -87,6 +87,11 @@ namespace Budgeter.Server.Repositories
             return true;
         }
 
+        public async Task<Category?> GetCategoryAsync(string categoryName)
+        {
+            return await _context.Categories.Where(a => a.Name == categoryName).FirstOrDefaultAsync();
+        }
+
         private Category CreateCategoryObjectAsync(CreateCategoryRequest request)
         {
             Category category = new Category

@@ -74,6 +74,11 @@ namespace Budgeter.Server.Repositories
             return true;
         }
 
+        public async Task<User?> GetUserAsync(string username)
+        {
+            return await _context.Users.Where(u => u.Name == username).FirstOrDefaultAsync();
+        }
+
         private User CreateUserObjectAsync(CreateUserRequest request)
         {
             User user = new User

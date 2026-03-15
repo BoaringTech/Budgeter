@@ -8,5 +8,6 @@ namespace Budgeter.Server.Entities
         public required string Name { get; set; }
         public required TransactionTypes TransactionType { get; set; }
         public required int Order { get; set; }
+        public bool IsSystem { get; set; } = false;
     }
 }

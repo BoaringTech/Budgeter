@@ -101,7 +101,7 @@ namespace Budgeter.Server.Repositories
 
             BudgetSetting budgetSetting = new BudgetSetting
             {
-                Category = category,
+                CategoryId = category.Id,
                 Amount = request.Amount,
                 Order = request.Order
             };

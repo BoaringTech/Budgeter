@@ -9,12 +9,24 @@ namespace Budgeter.Server.Repositories
     public class TransactionRepository : ITransactionRepository
     {
         private readonly BudgeterDbContext _context;
+        private readonly IAccountRepository _accountRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ISubcategoryRepository _subcategoryRepository;
         private readonly ILogger<TransactionRepository> _logger;
 
         public TransactionRepository(BudgeterDbContext context,
+            IAccountRepository accountRepository,
+            ICategoryRepository categoryRepository,
+            IUserRepository userRepository,
+            ISubcategoryRepository subcategoryRepository,
             ILogger<TransactionRepository> logger)
         {
             _context = context;
+            _accountRepository = accountRepository;
+            _categoryRepository = categoryRepository;
+            _userRepository = userRepository;
+            _subcategoryRepository = subcategoryRepository;
             _logger = logger;
             
         }
@@ -25,11 +37,6 @@ namespace Budgeter.Server.Repositories
 
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
-
-            // Load the category for the response
-            await _context.Entry(transaction)
-                .Reference(t => t.Category)
-                .LoadAsync();
 
             return transaction;
         }
@@ -73,22 +80,22 @@ namespace Budgeter.Server.Repositories
 
             // Update only provided fields
             if (request.UserName != null)
-                transaction.User = await GetUserAsync(request.UserName);
+                transaction.User = await _userRepository.GetUserAsync(request.UserName);
 
             if (request.DateTime != null)
                 transaction.Date = (DateTime)request.DateTime;
 
             if(request.AccountName != null)
-                transaction.Account = await GetAccountAsync(request.AccountName);
+                transaction.Account = await _accountRepository.GetAccountAsync(request.AccountName);
 
             if(request.TransactionType != null)
                 transaction.TransactionType = GetTransactionType(request.TransactionType);
 
             if (request.CategoryName != null)
-                transaction.Category = await GetCategoryAsync(request.CategoryName);
+                transaction.Category = await _categoryRepository.GetCategoryAsync(request.CategoryName);
 
             if (request.SubcategoryName != null)
-                transaction.SubCategory = await GetSubcategoryAsync(request.SubcategoryName);
+                transaction.SubCategory = await _subcategoryRepository.GetSubcategoryAsync(request.SubcategoryName);
 
             if (request.Amount.HasValue)
                 transaction.Amount = request.Amount.Value;
@@ -125,26 +132,6 @@ namespace Budgeter.Server.Repositories
                 .SumAsync(t => t.Amount);
         }
 
-        private async Task<User?> GetUserAsync(string username)
-        {
-            return await _context.Users.Where(u => u.Name == username).FirstOrDefaultAsync();
-        }
-
-        private async Task<Account?> GetAccountAsync(string accountName)
-        {
-            return await _context.Accounts.Where(a => a.Name == accountName).FirstOrDefaultAsync();
-        }
-
-        private async Task<Category?> GetCategoryAsync(string categoryName)
-        {
-            return await _context.Categories.Where(a => a.Name == categoryName).FirstOrDefaultAsync();
-        }
-
-        private async Task<Subcategory?> GetSubcategoryAsync(string subcategoryName)
-        {
-            return await _context.Subcategories.Where(a => a.Name == subcategoryName).FirstOrDefaultAsync();
-        }
-
         private async Task<Transaction> CreateTransactionObjectAsync(CreateTransactionRequest request)
         {
             Transaction transaction = new Transaction
@@ -158,21 +145,32 @@ namespace Budgeter.Server.Repositories
 
             if(!string.IsNullOrEmpty(request.UserName))
             {
-                transaction.User = await GetUserAsync(request.UserName);
+                var user = await _userRepository.GetUserAsync(request.UserName);
+                if(user != null)
+                    transaction.UserId = user.Id;
             }
 
             if (!string.IsNullOrEmpty(request.AccountName)) 
             {
-                transaction.Account = await GetAccountAsync(request.AccountName);
+                var account = await _accountRepository.GetAccountAsync(request.AccountName);
+                if(account != null)
+                    transaction.AccountId = account.Id;
             }
 
             if(!string.IsNullOrEmpty(request.CategoryName))
             {
-                transaction.Category = await GetCategoryAsync(request.CategoryName);
+                 var category = await _categoryRepository.GetCategoryAsync(request.CategoryName);
 
-                if(!string.IsNullOrEmpty(request.SubCategoryName))
+                if(category != null)
                 {
-                    transaction.SubCategory = await GetSubcategoryAsync(request.SubCategoryName);
+                    transaction.CategoryId = category.Id;
+
+                    if (!string.IsNullOrEmpty(request.SubCategoryName))
+                    {
+                        var subcategory = await _subcategoryRepository.GetSubcategoryAsync(request.SubCategoryName);
+                        if(subcategory != null)
+                            transaction.SubcategoryId = subcategory.Id; 
+                    }
                 }
             }
 

@@ -16,5 +16,7 @@ namespace Budgeter.Server.Repositories.Interfaces
 
         // DELETE
         Task<bool> DeleteAccountAsync(int id);
+
+        Task<Account?> GetAccountAsync(string accountName);
     }
 }

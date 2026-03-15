@@ -87,6 +87,11 @@ namespace Budgeter.Server.Repositories
             return true;
         }
 
+        public async Task<Subcategory?> GetSubcategoryAsync(string subcategoryName)
+        {
+            return await _context.Subcategories.Where(a => a.Name == subcategoryName).FirstOrDefaultAsync();
+        }
+
         private async Task<Subcategory> CreateSubcategoryObjectAsync(CreateSubcategoryRequest request)
         {
             var category = await _categoryRepository.GetCategoryByNameAsync(request.Category);
@@ -99,7 +104,7 @@ namespace Budgeter.Server.Repositories
 
             Subcategory subcategory = new Subcategory
             {
-                Category = category,
+                CategoryId = category.Id,
                 Name = request.Name,
                 Order = request.Order
             };

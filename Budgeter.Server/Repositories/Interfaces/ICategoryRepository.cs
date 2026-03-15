@@ -18,5 +18,7 @@ namespace Budgeter.Server.Repositories.Interfaces
 
         // DELETE
         Task<bool> DeleteCategoryAsync(int id);
+
+        Task<Category?> GetCategoryAsync(string categoryName);
     }
 }
