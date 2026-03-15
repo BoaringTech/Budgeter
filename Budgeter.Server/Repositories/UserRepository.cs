@@ -38,7 +38,7 @@ namespace Budgeter.Server.Repositories
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _context.Users
-                .OrderByDescending(u => u.Order)
+                .OrderBy(u => u.Order)
                 .ToListAsync();
         }
 

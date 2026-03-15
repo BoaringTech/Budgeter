@@ -37,8 +37,8 @@ namespace Budgeter.Server.Repositories
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
             return await _context.Categories
-                .OrderByDescending(c => c.Order)
-                .OrderByDescending(c => c.TransactionType)
+                .OrderBy(c => c.Order)
+                .OrderBy(c => c.TransactionType)
                 .ToListAsync();
         }
 

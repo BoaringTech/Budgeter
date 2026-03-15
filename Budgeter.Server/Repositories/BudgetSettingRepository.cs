@@ -5,50 +5,51 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Budgeter.Server.Repositories
 {
-    public class SubcategoryRepository : ISubcategoryRepository
+    public class BudgetSettingRepository : IBudgetSettingRepository
     {
         private readonly BudgeterDbContext _context;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly ILogger<SubcategoryRepository> _logger;
+        private readonly ILogger<BudgetSettingRepository> _logger;
 
-        public SubcategoryRepository(BudgeterDbContext context,
+        public BudgetSettingRepository(BudgeterDbContext context,
             ICategoryRepository categoryRepository,
-            ILogger<SubcategoryRepository> logger)
+            ILogger<BudgetSettingRepository> logger)
         {
             _context = context;
             _categoryRepository = categoryRepository;
             _logger = logger;
 
         }
-        public async Task<Subcategory> CreateSubcategoryAsync(CreateSubcategoryRequest request)
-        {
-            Subcategory subcategory = await CreateSubcategoryObjectAsync(request);
 
-            _context.Subcategories.Add(subcategory);
+        public async Task<BudgetSetting> CreateBudgetSettingAsync(CreateBudgetSettingRequest request)
+        {
+            BudgetSetting budgetSetting = await CreateBudgetSettingObjectAsync(request);
+
+            _context.BudgetSettings.Add(budgetSetting);
             await _context.SaveChangesAsync();
 
             // Load the category for the response
-            await _context.Entry(subcategory)
-                .Reference(c => c.Name)
+            await _context.Entry(budgetSetting)
+                .Reference(c => c.Category)
                 .LoadAsync();
 
-            return subcategory;
+            return budgetSetting;
         }
 
-        public async Task<IEnumerable<Subcategory>> GetAllSubcategoriesAsync()
+        public async Task<IEnumerable<BudgetSetting>> GetAllBudgetSettingsAsync()
         {
-            return await _context.Subcategories
+            return await _context.BudgetSettings
                 .OrderBy(s => s.Order)
                 .OrderBy(s => s.Category)
                 .ToListAsync();
         }
 
-        public async Task<Subcategory?> UpdateSubcategoryAsync(int id, UpdateSubcategoryRequest request)
+        public async Task<BudgetSetting?> UpdateBudgetSettingAsync(int id, UpdateBudgetSettingRequest request)
         {
-            Subcategory? subcategory = await _context.Subcategories
+            BudgetSetting? budgetSetting = await _context.BudgetSettings
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (subcategory == null)
+            if (budgetSetting == null)
                 return null;
 
             // Update only provided fields
@@ -62,32 +63,32 @@ namespace Budgeter.Server.Repositories
                         $"Cannot create subcategory");
                 }
 
-                subcategory.Category = category;
+                budgetSetting.Category = category;
             }
 
-            if (request.Name != null)
-                subcategory.Name = request.Name;
+            if (request.Amount != null)
+                budgetSetting.Amount = (decimal)request.Amount;
 
             if (request.Order != null)
-                subcategory.Order = (int)request.Order;
+                budgetSetting.Order = (int)request.Order;
 
             await _context.SaveChangesAsync();
 
-            return subcategory;
+            return budgetSetting;
         }
 
-        public async Task<bool> DeleteSubcategoryAsync(int id)
+        public async Task<bool> DeleteBudgetSettingAsync(int id)
         {
-            var subcategory = await _context.Subcategories.FindAsync(id);
-            if (subcategory == null)
+            var budgetSetting = await _context.BudgetSettings.FindAsync(id);
+            if (budgetSetting == null)
                 return false;
 
-            _context.Subcategories.Remove(subcategory);
+            _context.BudgetSettings.Remove(budgetSetting);
             await _context.SaveChangesAsync();
             return true;
         }
 
-        private async Task<Subcategory> CreateSubcategoryObjectAsync(CreateSubcategoryRequest request)
+        private async Task<BudgetSetting> CreateBudgetSettingObjectAsync(CreateBudgetSettingRequest request)
         {
             var category = await _categoryRepository.GetCategoryByNameAsync(request.Category);
 
@@ -97,14 +98,15 @@ namespace Budgeter.Server.Repositories
                     $"Cannot create subcategory");
             }
 
-            Subcategory subcategory = new Subcategory
+
+            BudgetSetting budgetSetting = new BudgetSetting
             {
                 Category = category,
-                Name = request.Name,
+                Amount = request.Amount,
                 Order = request.Order
             };
 
-            return subcategory;
+            return budgetSetting;
         }
     }
 }
