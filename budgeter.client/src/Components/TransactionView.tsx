@@ -1,10 +1,15 @@
-import DatePicker from "react-datepicker";
-import { useState, type ChangeEvent } from "react";
+import { useState } from "react";
 import type { Transaction } from "../Interfaces/Transaction";
 import type { TransactionTypes } from "../Enums/TransactionTypes";
+import TransactionTypeSelection from "./TransactionTypeSelection";
+import TransactionStringInputField from "./TransactionStringInputField";
+import TransactionNumberInputField from "./TransactionNumberInputField";
 
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
+import TransactionSaveButtons from "./TransactionSaveButtons";
+import TransactionButtonInputField from "./TransactionButtonInputField";
+import TransactionDateInputField from "./TransactionDateInputField";
 
 interface props {
   id: number;
@@ -101,7 +106,7 @@ function TransactionView({
       const response = await fetch("/transactions/" + newTransaction.id, {
         method: "PUT",
         headers: {
-          "Content-Type": "applicaiton/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newTransaction),
       });
@@ -158,149 +163,64 @@ function TransactionView({
       <h1>Transaction</h1>
       <main>
         <form>
-          <tr className="transactionFormButtons">
-            <button
-              disabled={changedTransactionType === "Income"}
-              onClick={() => setTransactionType("Income")}
-            >
-              Income
-            </button>
-            <button
-              disabled={changedTransactionType === "Expense"}
-              onClick={() => setTransactionType("Expense")}
-            >
-              Expense
-            </button>
-            <button
-              disabled={changedTransactionType === "Transfer"}
-              onClick={() => setTransactionType("Transfer")}
-            >
-              Transfer
-            </button>
-          </tr>
-          <tr>
-            <th className="label">Date</th>
-            <td>
-              <DatePicker
-                selected={changedDateTime}
-                showTimeSelect
-                dropdownMode="select"
-                onChange={(date: Date | null) =>
-                  setDateTime(SetDateAssumeNow(date))
-                }
-              />
-            </td>
-          </tr>
-          <tr>
-            <th className="label">User</th>
-            <td>
-              <input
-                name="User"
-                type="text"
-                value={changedUser || ""}
-                onChange={(e) => setUser(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th className="label">Account</th>
-            <td className="input">
-              <input
-                name="Account"
-                type="text"
-                value={changedAccount || ""}
-                onChange={(e) => setAccount(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th className="label">Category</th>
-            <td>
-              <input
-                name="Category"
-                type="text"
-                value={changedCategory || ""}
-                onChange={(e) => setCategory(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th className="label">Subcategory</th>
-            <td>
-              <input
-                name="Subcategory"
-                type="text"
-                value={changedSubcategory || ""}
-                onChange={(e) => setSubcategory(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th className="label">Amount</th>
-            <td>
-              <input
-                name="Amount"
-                type="number"
-                value={changedAmount || 0}
-                onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th className="label">Merchant</th>
-            <td>
-              <input
-                name="Merchant"
-                type="text"
-                value={changedMerchant || ""}
-                onChange={(e) => setMerchant(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th className="label">Note</th>
-            <td>
-              <input
-                name="Note"
-                type="text"
-                value={changedNote || ""}
-                onChange={(e) => setNote(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th className="label">Bookmark</th>
-            <td>
-              <input
-                name="Bookmark"
-                type="checkbox"
-                checked={changedBookmarked}
-                onChange={(e) => setBookmarked(OnCheckboxChanged(e))}
-              />
-            </td>
-          </tr>
-          <tr className="transactionFormButtons">
-            <button onClick={saveTransaction}>
-              {!saving ? "Save" : "Saving..."}
-            </button>
-            <button onClick={traverseBack}>Cancel</button>
-          </tr>
+          <TransactionTypeSelection
+            selectedTransactionType={changedTransactionType}
+            setTransactionType={setTransactionType}
+          />
+          <TransactionDateInputField
+            label="Date"
+            property={changedDateTime}
+            setProperty={setDateTime}
+          />
+          <TransactionStringInputField
+            label="User"
+            property={changedUser}
+            setProperty={setUser}
+          />
+          <TransactionStringInputField
+            label="Account"
+            property={changedAccount}
+            setProperty={setAccount}
+          />
+          <TransactionStringInputField
+            label="Category"
+            property={changedCategory}
+            setProperty={setCategory}
+          />
+          <TransactionStringInputField
+            label="Subcategory"
+            property={changedSubcategory}
+            setProperty={setSubcategory}
+          />
+          <TransactionNumberInputField
+            label="Amount"
+            property={changedAmount}
+            setProperty={setAmount}
+          />
+          <TransactionStringInputField
+            label="Merchant"
+            property={changedMerchant}
+            setProperty={setMerchant}
+          />
+          <TransactionStringInputField
+            label="Note"
+            property={changedNote}
+            setProperty={setNote}
+          />
+          <TransactionButtonInputField
+            label="Bookmark"
+            property={changedBookmarked}
+            setProperty={setBookmarked}
+          />
+          <TransactionSaveButtons
+            saving={saving}
+            onSave={saveTransaction}
+            onCancel={traverseBack}
+          />
         </form>
       </main>
     </>
   );
-}
-
-function SetDateAssumeNow(date: Date | null): Date {
-  if (!date) {
-    return new Date(Date.now());
-  }
-
-  return date;
-}
-
-function OnCheckboxChanged(e: ChangeEvent<HTMLInputElement>): boolean {
-  return e.target.checked;
 }
 
 export default TransactionView;

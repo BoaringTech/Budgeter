@@ -51,37 +51,32 @@ function App() {
   return (
     // Display the list of transactions when nothing is selected and loaded
     // or display the transaction details that is selected and loaded
-    <html>
-      <head>
-        <title>Budgeter</title>
-      </head>
-      <body>
-        {(!selectedTransactionId || !selectedTransaction) && (
-          <DailyTransactionListView
-            setSelectedTransactionId={setSelectedTransactionId}
-            refreshTrigger={refreshDate}
-          />
-        )}
-        {selectedTransactionId && selectedTransaction && (
-          <TransactionView
-            id={selectedTransaction.id}
-            user={selectedTransaction.user}
-            dateTime={selectedTransaction.dateTime}
-            account={selectedTransaction.account}
-            transactionType={selectedTransaction.transactionType}
-            category={selectedTransaction.category}
-            subcategory={selectedTransaction.subcategory}
-            amount={selectedTransaction.amount}
-            merchant={selectedTransaction.merchant}
-            bookmarked={selectedTransaction.bookmarked}
-            note={selectedTransaction.note}
-            setSelectedTransactionId={setSelectedTransactionId}
-            setSelectedTransaction={setSelectedTransaction}
-            setRefreshDate={setRefreshDate}
-          />
-        )}
-      </body>
-    </html>
+    <>
+      {(!selectedTransactionId || !selectedTransaction) && (
+        <DailyTransactionListView
+          setSelectedTransactionId={setSelectedTransactionId}
+          refreshTrigger={refreshDate}
+        />
+      )}
+      {selectedTransactionId && selectedTransaction && (
+        <TransactionView
+          id={selectedTransaction.id}
+          user={selectedTransaction.user}
+          dateTime={selectedTransaction.dateTime}
+          account={selectedTransaction.account}
+          transactionType={selectedTransaction.transactionType}
+          category={selectedTransaction.category}
+          subcategory={selectedTransaction.subcategory}
+          amount={selectedTransaction.amount}
+          merchant={selectedTransaction.merchant}
+          bookmarked={selectedTransaction.bookmarked}
+          note={selectedTransaction.note}
+          setSelectedTransactionId={setSelectedTransactionId}
+          setSelectedTransaction={setSelectedTransaction}
+          setRefreshDate={setRefreshDate}
+        />
+      )}
+    </>
   );
 }
 
