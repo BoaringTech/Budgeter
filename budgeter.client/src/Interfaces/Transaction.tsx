@@ -11,5 +11,5 @@ export interface Transaction {
   amount: number;
   merchant: string | null;
   bookmarked: boolean;
-  note: string | null;
+  notes: string | null;
 }

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import type { Transaction } from "../Interfaces/Transaction";
 import TransactionSummaryView from "./TransactionSummaryView";
 
+import "../StyleSheets/TransactionSummary.css";
+
 interface props {
   setSelectedTransactionId: (transaction: number | null) => void;
   refreshTrigger: Date;
@@ -35,7 +37,7 @@ function DailyTransactionListView({
             category={item.category}
             amount={item.amount}
             merchant={item.merchant}
-            note={item.note}
+            notes={item.notes}
           />
         </div>
       ))}

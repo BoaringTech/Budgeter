@@ -140,7 +140,7 @@ function TransactionView({
       amount: changedAmount,
       merchant: changedMerchant,
       bookmarked: changedBookmarked,
-      note: changedNote,
+      notes: changedNote,
     };
 
     if (saving) return;
