@@ -8,7 +8,7 @@ interface props {
 function TransactionSummaryView({ category, amount, merchant, notes }: props) {
   return (
     <>
-      <p className="category">{category}</p>
+      <p className="category">{category || "Uncategorized"}</p>
       <div className="middle-column">
         <p className="merchant">{merchant}</p>
         <p className="note">{notes}</p>

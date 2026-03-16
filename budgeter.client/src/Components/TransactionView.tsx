@@ -60,6 +60,7 @@ function TransactionView({
 
   // Create/Update States
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [, setError] = useState(null);
   const [, setSuccess] = useState(false);
 
@@ -125,6 +126,35 @@ function TransactionView({
       setError(err.message);
     } finally {
       setSaving(false);
+      traverseBack();
+    }
+  };
+
+  const deleteTransaction = async () => {
+    setDeleting(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      // DELETE transaction
+      const response = await fetch("/api/transactions/" + id, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          "Unable to delete transaction! status ${response.status}",
+        );
+      }
+
+      const data = await response.json();
+      setSuccess(true);
+      return data;
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setDeleting(false);
+      traverseBack();
     }
   };
 
@@ -168,7 +198,6 @@ function TransactionView({
   const traverseBack = () => {
     setSelectedTransactionId(-1);
     setSelectedTransaction(null);
-    setRefreshDate(new Date());
   };
 
   return (
@@ -227,7 +256,10 @@ function TransactionView({
           />
           <TransactionSaveButtons
             saving={saving}
+            deleting={deleting}
+            deletable={id != -1} // -1 means it does not exist
             onSave={saveTransaction}
+            onDelete={deleteTransaction}
             onCancel={traverseBack}
           />
         </form>

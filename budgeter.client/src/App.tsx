@@ -23,7 +23,7 @@ function App() {
 
     // Fetch an existing transaction
     if (selectedTransactionId > -1) {
-      fetch("/transactions/" + selectedTransactionId)
+      fetch("/api/transactions/" + selectedTransactionId)
         .then((response) => response.json())
         .then((data) => {
           setSelectedTransaction(data);
@@ -34,16 +34,16 @@ function App() {
     // Create a new transaction
     const newTransaction: Transaction = {
       id: -1,
-      user: null,
+      userName: null,
       dateTime: new Date(),
-      account: null,
+      accountName: null,
       transactionType: "Expense",
-      category: null,
-      subcategory: null,
+      categoryName: null,
+      subcategoryName: null,
       amount: 0,
       merchant: null,
       bookmarked: false,
-      note: null,
+      notes: null,
     };
     setSelectedTransaction(newTransaction);
   }, [selectedTransactionId]);
@@ -52,25 +52,25 @@ function App() {
     // Display the list of transactions when nothing is selected and loaded
     // or display the transaction details that is selected and loaded
     <>
-      {(!selectedTransactionId || !selectedTransaction) && (
+      {!selectedTransaction && (
         <DailyTransactionListView
           setSelectedTransactionId={setSelectedTransactionId}
           refreshTrigger={refreshDate}
         />
       )}
-      {selectedTransactionId && selectedTransaction && (
+      {selectedTransaction && (
         <TransactionView
           id={selectedTransaction.id}
-          user={selectedTransaction.user}
+          user={selectedTransaction.userName}
           dateTime={selectedTransaction.dateTime}
-          account={selectedTransaction.account}
+          account={selectedTransaction.accountName}
           transactionType={selectedTransaction.transactionType}
-          category={selectedTransaction.category}
-          subcategory={selectedTransaction.subcategory}
+          category={selectedTransaction.categoryName}
+          subcategory={selectedTransaction.subcategoryName}
           amount={selectedTransaction.amount}
           merchant={selectedTransaction.merchant}
           bookmarked={selectedTransaction.bookmarked}
-          note={selectedTransaction.note}
+          note={selectedTransaction.notes}
           setSelectedTransactionId={setSelectedTransactionId}
           setSelectedTransaction={setSelectedTransaction}
           setRefreshDate={setRefreshDate}
