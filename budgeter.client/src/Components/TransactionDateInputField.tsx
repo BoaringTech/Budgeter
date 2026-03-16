@@ -8,28 +8,40 @@ interface props {
 
 function TransactionDateInputField({ label, property, setProperty }: props) {
   const getDateString = (date: Date | null): string => {
-    let dateValue = date || new Date();
-    const year = dateValue.getFullYear();
-    const month = String(dateValue.getMonth() + 1).padStart(2, "0");
-    const day = String(dateValue.getDate()).padStart(2, "0");
+    if (!date) {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    const dateObj = date instanceof Date ? date : new Date(date);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
   const getTimeString = (date: Date | null): string => {
-    let dateValue = date || new Date();
-    const hours = String(dateValue.getHours()).padStart(2, "0");
-    const minutes = String(dateValue.getMinutes()).padStart(2, "0");
+    if (!date) {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      return `${hours}:${minutes}`;
+    }
+
+    const dateObj = date instanceof Date ? date : new Date(date);
+    const hours = String(dateObj.getHours()).padStart(2, "0");
+    const minutes = String(dateObj.getMinutes()).padStart(2, "0");
     return `${hours}:${minutes}`;
   };
 
   const [dateValue, setDateValue] = useState<string>(getDateString(property));
   const [timeValue, setTimeValue] = useState<string>(getTimeString(property));
 
-  const createDateFromInputs = (
-    dateStr: string,
-    timeStr: string,
-  ): Date | null => {
-    if (!dateStr) return null;
+  const createDateFromInputs = (dateStr: string, timeStr: string): Date => {
+    if (!dateStr) return new Date();
 
     // Default time to midnight if not provided
     const time = timeStr || "00:00";
@@ -41,7 +53,7 @@ function TransactionDateInputField({ label, property, setProperty }: props) {
 
     // Validate the date
     if (isNaN(newDate.getTime())) {
-      return null;
+      return new Date();
     }
 
     return newDate;
@@ -51,7 +63,7 @@ function TransactionDateInputField({ label, property, setProperty }: props) {
     const newDateStr = e.target.value;
     setDateValue(newDateStr);
 
-    const newDate = createDateFromInputs(newDateStr, timeValue) || new Date();
+    const newDate = createDateFromInputs(newDateStr, timeValue);
     setProperty(newDate);
   };
 
@@ -59,7 +71,7 @@ function TransactionDateInputField({ label, property, setProperty }: props) {
     const newTimeStr = e.target.value;
     setTimeValue(newTimeStr);
 
-    const newDate = createDateFromInputs(dateValue, newTimeStr) || new Date();
+    const newDate = createDateFromInputs(dateValue, newTimeStr);
     setProperty(newDate);
   };
 
