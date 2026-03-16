@@ -1,0 +1,5 @@
+.transactions-container {
+    max-height: 600px;
+    min-width: 400px;
+    overflow-y: auto; /* Show scrollbar only when needed */
+}

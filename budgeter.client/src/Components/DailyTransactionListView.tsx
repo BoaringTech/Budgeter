@@ -3,6 +3,7 @@ import type { Transaction } from "../Interfaces/Transaction";
 import TransactionSummaryView from "./TransactionSummaryView";
 
 import "../StyleSheets/TransactionSummary.css";
+import "../StyleSheets/DailyTransactionListView.css";
 
 interface props {
   setSelectedTransactionId: (transaction: number | null) => void;
@@ -27,20 +28,22 @@ function DailyTransactionListView({
   return (
     <>
       <h1>Transactions</h1>
-      {transactions.map((item) => (
-        <div
-          key={item.id}
-          onClick={() => setSelectedTransactionId(item.id)}
-          className="transactionSummary"
-        >
-          <TransactionSummaryView
-            category={item.category}
-            amount={item.amount}
-            merchant={item.merchant}
-            notes={item.notes}
-          />
-        </div>
-      ))}
+      <div className="transactions-container">
+        {transactions.map((item) => (
+          <div
+            key={item.id}
+            onClick={() => setSelectedTransactionId(item.id)}
+            className="transactionSummary"
+          >
+            <TransactionSummaryView
+              category={item.category}
+              amount={item.amount}
+              merchant={item.merchant}
+              notes={item.notes}
+            />
+          </div>
+        ))}
+      </div>
       <button onClick={() => setSelectedTransactionId(-1)}>
         Add Transaction
       </button>
