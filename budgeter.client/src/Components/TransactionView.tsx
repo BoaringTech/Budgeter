@@ -88,12 +88,16 @@ function TransactionView({
 
       const data = await response.json();
       setSuccess(true);
+
+      // Only navigate back after successful update
+      setRefreshDate(new Date()); // Trigger list refresh
+      traverseBack();
+
       return data;
     } catch (err: any) {
       setError(err.message);
     } finally {
       setSaving(false);
-      traverseBack();
     }
   };
 
@@ -121,12 +125,16 @@ function TransactionView({
 
       const data = await response.json();
       setSuccess(true);
+
+      // Only navigate back after successful update
+      setRefreshDate(new Date()); // Trigger list refresh
+      traverseBack();
+
       return data;
     } catch (err: any) {
       setError(err.message);
     } finally {
       setSaving(false);
-      traverseBack();
     }
   };
 
@@ -149,12 +157,16 @@ function TransactionView({
 
       const data = await response.json();
       setSuccess(true);
+
+      // Only navigate back after successful update
+      setRefreshDate(new Date()); // Trigger list refresh
+      traverseBack();
+
       return data;
     } catch (err: any) {
       setError(err.message);
     } finally {
       setDeleting(false);
-      traverseBack();
     }
   };
 
@@ -196,8 +208,9 @@ function TransactionView({
   };
 
   const traverseBack = () => {
-    setSelectedTransactionId(-1);
+    setSelectedTransactionId(null);
     setSelectedTransaction(null);
+    setRefreshDate(new Date());
   };
 
   return (

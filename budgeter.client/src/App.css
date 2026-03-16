@@ -13,14 +13,38 @@
   color: #888;
 }
 
-.transactionFormButtons {
+.transactionSelectionButtons {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
+.transactionInputField {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .label {
   text-align: left;
+  font-weight: bold;
+  margin: 0;
+}
+
+input {
+  text-align: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 * {

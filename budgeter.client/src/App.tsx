@@ -48,6 +48,8 @@ function App() {
     setSelectedTransaction(newTransaction);
   }, [selectedTransactionId]);
 
+  useEffect(() => {}, [refreshDate]);
+
   return (
     // Display the list of transactions when nothing is selected and loaded
     // or display the transaction details that is selected and loaded
