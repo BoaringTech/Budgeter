@@ -31,10 +31,10 @@ function DailyTransactionListView({
         <h1>Transactions</h1>
         <div className="transactions-container">
           {transactions.map((item) => (
-            <div
+            <button
               key={item.id}
               onClick={() => setSelectedTransactionId(item.id)}
-              className="transactionSummary"
+              className="transaction-summary"
             >
               <TransactionSummaryView
                 category={item.category}
@@ -42,7 +42,7 @@ function DailyTransactionListView({
                 merchant={item.merchant}
                 notes={item.notes}
               />
-            </div>
+            </button>
           ))}
         </div>
         <button onClick={() => setSelectedTransactionId(-1)}>
