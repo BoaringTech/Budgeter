@@ -27,26 +27,28 @@ function DailyTransactionListView({
 
   return (
     <>
-      <h1>Transactions</h1>
-      <div className="transactions-container">
-        {transactions.map((item) => (
-          <div
-            key={item.id}
-            onClick={() => setSelectedTransactionId(item.id)}
-            className="transactionSummary"
-          >
-            <TransactionSummaryView
-              category={item.category}
-              amount={item.amount}
-              merchant={item.merchant}
-              notes={item.notes}
-            />
-          </div>
-        ))}
+      <div className="transactions-page">
+        <h1>Transactions</h1>
+        <div className="transactions-container">
+          {transactions.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => setSelectedTransactionId(item.id)}
+              className="transactionSummary"
+            >
+              <TransactionSummaryView
+                category={item.category}
+                amount={item.amount}
+                merchant={item.merchant}
+                notes={item.notes}
+              />
+            </div>
+          ))}
+        </div>
+        <button onClick={() => setSelectedTransactionId(-1)}>
+          Add Transaction
+        </button>
       </div>
-      <button onClick={() => setSelectedTransactionId(-1)}>
-        Add Transaction
-      </button>
     </>
   );
 }

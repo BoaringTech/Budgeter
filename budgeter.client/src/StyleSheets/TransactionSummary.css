@@ -1,8 +1,8 @@
 .transactionSummary {
     display: grid;
     grid-template-columns: 100px 1fr 80px;
-    gap: 16px;
-    padding: 12px;
+    gap: 8px;
+    padding: 8px;
     border-bottom: 1px solid #e0e0e0;
     align-items: start;
 }

@@ -1,5 +1,17 @@
+.transactions-page {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
 .transactions-container {
     max-height: 600px;
     min-width: 400px;
     overflow-y: auto; /* Show scrollbar only when needed */
+
+    margin: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
 }
