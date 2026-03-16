@@ -10,6 +10,7 @@ import "react-clock/dist/Clock.css";
 import TransactionSaveButtons from "./TransactionSaveButtons";
 import TransactionButtonInputField from "./TransactionButtonInputField";
 import TransactionDateInputField from "./TransactionDateInputField";
+import type { UpdateTransaction } from "../Interfaces/UpdateTransaction";
 
 interface props {
   id: number;
@@ -96,14 +97,14 @@ function TransactionView({
   };
 
   // Update Transaction Function
-  const updateTransaction = async (newTransaction: Transaction) => {
+  const updateTransaction = async (newTransaction: UpdateTransaction) => {
     setSaving(true);
     setError(null);
     setSuccess(false);
 
     try {
       // PUT transaction
-      const response = await fetch("/transactions/" + newTransaction.id, {
+      const response = await fetch("/api/transactions/" + id, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -129,25 +130,37 @@ function TransactionView({
 
   // Saves Transaction Function
   const saveTransaction = () => {
-    const newTransaction: Transaction = {
-      id: id,
-      user: changedUser,
-      dateTime: changedDateTime,
-      account: changedAccount,
-      transactionType: changedTransactionType,
-      category: changedCategory,
-      subcategory: changedSubcategory,
-      amount: changedAmount,
-      merchant: changedMerchant,
-      bookmarked: changedBookmarked,
-      notes: changedNote,
-    };
-
     if (saving) return;
 
     if (id > -1) {
-      updateTransaction(newTransaction);
+      const updatedTransaction: UpdateTransaction = {
+        userName: changedUser,
+        dateTime: changedDateTime,
+        accountName: changedAccount,
+        transactionType: changedTransactionType,
+        categoryName: changedCategory,
+        subcategoryName: changedSubcategory,
+        amount: changedAmount,
+        merchant: changedMerchant,
+        bookmarked: changedBookmarked,
+        notes: changedNote,
+      };
+      updateTransaction(updatedTransaction);
     } else {
+      const newTransaction: Transaction = {
+        id: id,
+        userName: changedUser,
+        dateTime: changedDateTime,
+        accountName: changedAccount,
+        transactionType: changedTransactionType,
+        categoryName: changedCategory,
+        subcategoryName: changedSubcategory,
+        amount: changedAmount,
+        merchant: changedMerchant,
+        bookmarked: changedBookmarked,
+        notes: changedNote,
+      };
+
       createTransaction(newTransaction);
     }
   };

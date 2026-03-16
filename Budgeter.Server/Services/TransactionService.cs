@@ -15,7 +15,7 @@ namespace Budgeter.Server.Services
                 User = t.User != null ? t.User.Name : string.Empty,
                 DateTime = t.Date,
                 Account = t.Account != null ? t.Account.Name : string.Empty,
-                TransactionType = t.TransactionType,
+                TransactionType = t.TransactionType.ToString(),
                 Category = t.Category != null ? t.Category.Name : string.Empty,
                 SubCategory = t.SubCategory != null ? t.SubCategory.Name : string.Empty,
                 Amount = t.Amount,

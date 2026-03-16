@@ -73,7 +73,7 @@ namespace Budgeter.Server.Controllers
 
         // PUT /transactions/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTransaction(int id, UpdateTransactionRequest request)
+        public async Task<IActionResult> UpdateTransaction(int id, [FromBody]UpdateTransactionRequest request)
         {
             Transaction? transaction = await _transactionRepository.UpdateTransactionAsync(id, request);
 

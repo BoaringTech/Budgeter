@@ -1,7 +1,6 @@
 import type { TransactionTypes } from "../Enums/TransactionTypes";
 
-export interface Transaction {
-  id: number;
+export interface UpdateTransaction {
   userName: string | null;
   dateTime: Date;
   accountName: string | null;

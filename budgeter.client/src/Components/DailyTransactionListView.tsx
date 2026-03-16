@@ -37,7 +37,7 @@ function DailyTransactionListView({
               className="transaction-summary"
             >
               <TransactionSummaryView
-                category={item.category}
+                category={item.categoryName}
                 amount={item.amount}
                 merchant={item.merchant}
                 notes={item.notes}

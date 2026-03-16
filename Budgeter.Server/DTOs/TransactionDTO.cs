@@ -9,7 +9,7 @@ namespace Budgeter.Server.DTOs
         public string? User { get; set; }
         public required DateTime DateTime { get; set; }
         public string? Account { get; set; }
-        public required TransactionTypes TransactionType { get; set; }
+        public required string TransactionType { get; set; }
         public string? Category { get; set; }
         public string? SubCategory { get; set; }
         [Precision(11,2)]
