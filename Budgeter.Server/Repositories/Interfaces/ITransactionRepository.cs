@@ -12,6 +12,7 @@ namespace Budgeter.Server.Repositories.Interfaces
         Task<Transaction?> GetTransactionByIdAsync(int id);
         Task<IEnumerable<Transaction>> GetTransactionsByDateRangeAsync(DateTime start, DateTime end);
         Task<IEnumerable<Transaction>> GetAllTransactionsAsync();
+        Task<IEnumerable<Transaction>> GetAllBookmarkedTransactionsAsync();
 
         // UPDATE
         Task<Transaction?> UpdateTransactionAsync(int id, UpdateTransactionRequest request);
