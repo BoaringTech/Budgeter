@@ -15,6 +15,7 @@ function DailyTransactionListView({
   refreshTrigger,
 }: props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [month, setMonth] = useState(getMonthAndYear(new Date()));
 
   useEffect(() => {
     // Fetch daily transactions
@@ -27,30 +28,80 @@ function DailyTransactionListView({
 
   return (
     <>
-      <div className="transactions-page">
-        <h1>Transactions</h1>
-        <div className="transactions-container">
-          {transactions.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setSelectedTransactionId(item.id)}
-              className="transaction-summary"
-            >
-              <TransactionSummaryView
-                category={item.categoryName}
-                amount={item.amount}
-                merchant={item.merchant}
-                notes={item.notes}
-              />
-            </button>
-          ))}
+      <header>
+        <div>
+          <button
+            onClick={() => {
+              setMonth(getMonthAndYear(decrementMonth(month)));
+            }}
+          >
+            {"<"}
+          </button>
+          <label>{showMonthAndYear(month)}</label>
+          <button
+            onClick={() => {
+              setMonth(getMonthAndYear(incrementMonth(month)));
+            }}
+          >
+            {">"}
+          </button>
+          <button>Search</button>
+          <button>Settings</button>
         </div>
-        <button onClick={() => setSelectedTransactionId(-1)}>
-          Add Transaction
-        </button>
-      </div>
+        <div>
+          <button>Daily</button>
+          <button>Calendar</button>
+          <button>Weekly</button>
+          <button>Bookmarks</button>
+          <button>Notes</button>
+        </div>
+      </header>
+      <main>
+        <div className="transactions-page">
+          <div className="transactions-container">
+            {transactions.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setSelectedTransactionId(item.id)}
+                className="transaction-summary"
+              >
+                <TransactionSummaryView
+                  category={item.categoryName}
+                  amount={item.amount}
+                  merchant={item.merchant}
+                  notes={item.notes}
+                />
+              </button>
+            ))}
+          </div>
+          <button onClick={() => setSelectedTransactionId(-1)}>
+            Add Transaction
+          </button>
+        </div>
+      </main>
     </>
   );
+}
+
+function getMonthAndYear(date: Date): Date {
+  let year = date.getFullYear();
+  let month = date.getMonth();
+  return new Date(year, month);
+}
+
+function showMonthAndYear(date: Date): string {
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function decrementMonth(date: Date): Date {
+  return new Date(date.setMonth(date.getMonth() - 1));
+}
+
+function incrementMonth(date: Date): Date {
+  return new Date(date.setMonth(date.getMonth() + 1));
 }
 
 export default DailyTransactionListView;

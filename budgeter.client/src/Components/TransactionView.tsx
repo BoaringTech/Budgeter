@@ -5,12 +5,12 @@ import TransactionTypeSelection from "./TransactionTypeSelection";
 import TransactionStringInputField from "./TransactionStringInputField";
 import TransactionNumberInputField from "./TransactionNumberInputField";
 
-import "react-time-picker/dist/TimePicker.css";
-import "react-clock/dist/Clock.css";
 import TransactionSaveButtons from "./TransactionSaveButtons";
 import TransactionButtonInputField from "./TransactionButtonInputField";
 import TransactionDateInputField from "./TransactionDateInputField";
 import type { UpdateTransaction } from "../Interfaces/UpdateTransaction";
+
+import "../StyleSheets/TransactionView.css";
 
 interface props {
   id: number;
@@ -215,7 +215,9 @@ function TransactionView({
 
   return (
     <>
-      <h1>Transaction</h1>
+      <header>
+        <h2 className="transaction-header">{changedTransactionType}</h2>
+      </header>
       <main>
         <form>
           <TransactionTypeSelection
