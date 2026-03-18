@@ -5,6 +5,7 @@ import AppState from "../Enums/AppState";
 
 import "../StyleSheets/TransactionSummary.css";
 import "../StyleSheets/DailyTransactionListView.css";
+import "../StyleSheets/Bookmarks.css";
 
 interface props {
   appState: AppState;
@@ -43,8 +44,10 @@ function BookmarksView({
   return (
     <>
       <header>
-        <button onClick={exit}>{"<"}</button>
-        <label>Bookmarks</label>
+        <div className="bookmarks-header">
+          <button onClick={exit}>{"<"}</button>
+          <h3>Bookmarks</h3>
+        </div>
       </header>
       <main>
         <div className="transactions-page">

@@ -1,8 +1,9 @@
 .transactions-page {
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  padding: 0 4px;
   box-sizing: border-box;
+  margin: 0;
 }
 
 .transactions-container {
@@ -11,8 +12,30 @@
     overflow-y: auto; /* Show scrollbar only when needed */
     overflow-x: hidden;
 
-    margin: 8px;
+    margin: 0 8px;
     padding-right: 8px;
     border-radius: 8px;
     border: 1px solid #e0e0e0;
+}
+
+.selected-button {
+  border: 1px solid #e0e0e0;
+}
+
+.selected-button:hover {
+  cursor: default;
+  border: 1px solid #e0e0e0;
+}
+
+.main-nav-buttons {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0px;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.main-nav-buttons button {
+  padding: 8px 16px;
+  width: 100%;
 }

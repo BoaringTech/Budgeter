@@ -60,12 +60,20 @@ function DailyTransactionListView({
             {">"}
           </button>
           <button>Search</button>
-          <button>Settings</button>
         </div>
-        <div>
-          <button>Daily</button>
+        <div className="main-nav-buttons">
+          <button
+            className={
+              appState === AppState.DailyTransactionListView
+                ? "selected-button"
+                : ""
+            }
+          >
+            Daily
+          </button>
           <button>Weekly</button>
           <button>Calendar</button>
+          <button>Settings</button>
           <button onClick={viewBookmarks}>Bookmarks</button>
         </div>
       </header>
