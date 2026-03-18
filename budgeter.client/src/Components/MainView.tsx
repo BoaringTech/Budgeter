@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AppState from "../Enums/AppState";
 import DailyTransactionListView from "./DailyTransactionListView";
+import type { Transaction } from "../Interfaces/Transaction";
 
 interface props {
   appState: AppState;
@@ -15,6 +16,7 @@ function MainView({
   setAppState,
   setViewingBookmarks,
 }: props) {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [month, setMonth] = useState(getMonthAndYear(new Date()));
 
   const viewBookmarks = () => {
@@ -45,7 +47,10 @@ function MainView({
               {">"}
             </button>
           </span>
-          <button>Search</button>
+          <span>
+            <button>Settings</button>
+            <button>Search</button>
+          </span>
         </div>
         <div className="main-nav-buttons">
           <button
@@ -59,7 +64,7 @@ function MainView({
           </button>
           <button>Weekly</button>
           <button>Calendar</button>
-          <button>Settings</button>
+          <button>Budget</button>
           <button onClick={viewBookmarks}>Bookmarks</button>
         </div>
       </header>
@@ -68,7 +73,9 @@ function MainView({
         {appState === AppState.DailyTransactionListView && (
           <DailyTransactionListView
             appState={appState}
+            transactions={transactions}
             month={month}
+            setTransactions={setTransactions}
             setSelectedTransactionId={setSelectedTransactionId}
           />
         )}

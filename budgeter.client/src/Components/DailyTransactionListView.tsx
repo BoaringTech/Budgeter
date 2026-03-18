@@ -7,17 +7,19 @@ import "../StyleSheets/DailyTransactionListView.css";
 
 interface props {
   appState: AppState;
+  transactions: Transaction[];
   month: Date;
+  setTransactions: (transactions: Transaction[]) => void;
   setSelectedTransactionId: (transaction: number | null) => void;
 }
 
 function DailyTransactionListView({
   appState,
+  transactions,
   month,
+  setTransactions,
   setSelectedTransactionId,
 }: props) {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-
   useEffect(() => {
     // Fetch daily transactions
     fetch(
