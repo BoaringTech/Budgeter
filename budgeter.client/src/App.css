@@ -5,6 +5,18 @@
   text-align: center;
 }
 
+header {
+  margin: 0 4px;
+}
+
+main {
+  margin: 0 4px;
+}
+
+button {
+  padding: 8px 12px;
+}
+
 .card {
   padding: 2em;
 }

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import type { Transaction } from "../Interfaces/Transaction";
 import AppState from "../Enums/AppState";
+import DatedTransactionSummaryView from "./DatedTransactionSummaryView";
 
 import "../StyleSheets/DailyTransactionListView.css";
-import DatedTransactionSummaryView from "./DatedTransactionSummaryView";
 
 interface props {
   appState: AppState;
@@ -97,7 +97,10 @@ function DailyTransactionListView({
               </button>
             ))}
           </div>
-          <button onClick={() => setSelectedTransactionId(-1)}>
+          <button
+            className="transactions-add-transaction-button"
+            onClick={() => setSelectedTransactionId(-1)}
+          >
             Add Transaction
           </button>
         </div>

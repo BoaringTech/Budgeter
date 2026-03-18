@@ -6,3 +6,13 @@
     font-weight: bold;
     gap: 8px
 }
+
+.back-button {
+    padding: 4px 8px;
+    background-color: transparent;
+    border: none
+}
+
+.back-button:hover {
+    border: none;
+}
