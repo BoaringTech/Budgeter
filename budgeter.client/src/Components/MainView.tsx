@@ -20,6 +20,10 @@ function MainView({
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [month, setMonth] = useState(getMonthAndYear(new Date()));
 
+  const viewDaily = () => {
+    setAppState(AppState.DailyTransactionListView);
+  };
+
   const viewBookmarks = () => {
     setAppState(AppState.BookmarksView);
     setViewingBookmarks(true);
@@ -50,11 +54,10 @@ function MainView({
                 ? "selected-button"
                 : ""
             }
+            onClick={viewDaily}
           >
             Daily
           </button>
-          <button>Weekly</button>
-          <button>Calendar</button>
           <button>Budget</button>
           <button onClick={viewBookmarks}>Bookmarks</button>
         </div>
@@ -63,7 +66,6 @@ function MainView({
       <main>
         {appState === AppState.DailyTransactionListView && (
           <DailyTransactionListView
-            appState={appState}
             transactions={transactions}
             month={month}
             setTransactions={setTransactions}

@@ -56,11 +56,11 @@ namespace Budgeter.Server.Controllers
         [HttpGet("time")]
         public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsByDateRange(
             [FromQuery] int year,
-            [FromQuery] int month)
+            [FromQuery] int? month = null)
         {
-            // Grab a full month's worth of transactions
-            DateTime start = new DateTime(year, month, 1);
-            DateTime end = start.AddMonths(1).AddTicks(-1);
+            // Grab a full month's or year's worth of transactions
+            DateTime start = month.HasValue ? new DateTime(year, (int)month, 1) : new DateTime(year, 1, 1);
+            DateTime end = month.HasValue ? start.AddMonths(1).AddTicks(-1) : start.AddYears(1).AddTicks(-1);
 
             IEnumerable<Transaction> transactions = await _transactionRepository.GetTransactionsByDateRangeAsync(start, end);
             IEnumerable<TransactionDTO> transactionsDTO = transactions.Select(_transactionService.TranslateTransaction);

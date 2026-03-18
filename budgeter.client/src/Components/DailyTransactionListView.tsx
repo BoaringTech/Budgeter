@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import type { Transaction } from "../Interfaces/Transaction";
-import AppState from "../Enums/AppState";
 import DatedTransactionSummaryView from "./DatedTransactionSummaryView";
 
 import "../StyleSheets/DailyTransactionListView.css";
 
 interface props {
-  appState: AppState;
   transactions: Transaction[];
   month: Date;
   setTransactions: (transactions: Transaction[]) => void;
@@ -14,7 +12,6 @@ interface props {
 }
 
 function DailyTransactionListView({
-  appState,
   transactions,
   month,
   setTransactions,
@@ -32,7 +29,7 @@ function DailyTransactionListView({
       .then((data) => {
         setTransactions(data);
       });
-  }, [appState, month]);
+  }, [month]);
 
   return (
     <>

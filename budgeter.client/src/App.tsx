@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import type { Transaction } from "./Interfaces/Transaction";
-import DailyTransactionListView from "./Components/DailyTransactionListView";
 import TransactionView from "./Components/TransactionView";
 import AppState from "./Enums/AppState";
 import BookmarksView from "./Components/BookmarksView";
+import MainView from "./Components/MainView";
 
 import "./App.css";
-import MainView from "./Components/MainView";
 
 function App() {
   const [appState, setAppState] = useState<AppState>(
