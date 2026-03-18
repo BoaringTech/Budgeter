@@ -67,7 +67,6 @@ function DailyTransactionListView({
           <button>Calendar</button>
           <button>Weekly</button>
           <button onClick={viewBookmarks}>Bookmarks</button>
-          <button>Notes</button>
         </div>
       </header>
       <main>
