@@ -6,6 +6,7 @@ import AppState from "./Enums/AppState";
 import BookmarksView from "./Components/BookmarksView";
 
 import "./App.css";
+import MainView from "./Components/MainView";
 
 function App() {
   const [appState, setAppState] = useState<AppState>(
@@ -60,14 +61,15 @@ function App() {
     // Display the list of transactions when nothing is selected and loaded
     // or display the transaction details that is selected and loaded
     <>
-      {appState === AppState.DailyTransactionListView && (
-        <DailyTransactionListView
-          appState={appState}
-          setSelectedTransactionId={setSelectedTransactionId}
-          setAppState={setAppState}
-          setViewingBookmarks={setViewingBookmarks}
-        />
-      )}
+      {appState !== AppState.TransactionView &&
+        appState !== AppState.BookmarksView && (
+          <MainView
+            appState={appState}
+            setSelectedTransactionId={setSelectedTransactionId}
+            setAppState={setAppState}
+            setViewingBookmarks={setViewingBookmarks}
+          />
+        )}
       {appState == AppState.TransactionView && selectedTransaction && (
         <TransactionView
           id={selectedTransaction.id}

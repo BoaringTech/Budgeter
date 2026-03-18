@@ -7,19 +7,16 @@ import "../StyleSheets/DailyTransactionListView.css";
 
 interface props {
   appState: AppState;
+  month: Date;
   setSelectedTransactionId: (transaction: number | null) => void;
-  setAppState: (appState: AppState) => void;
-  setViewingBookmarks: (viewingBookmarks: boolean) => void;
 }
 
 function DailyTransactionListView({
   appState,
+  month,
   setSelectedTransactionId,
-  setAppState,
-  setViewingBookmarks,
 }: props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [month, setMonth] = useState(getMonthAndYear(new Date()));
 
   useEffect(() => {
     // Fetch daily transactions
@@ -35,103 +32,36 @@ function DailyTransactionListView({
       });
   }, [appState, month]);
 
-  const viewBookmarks = () => {
-    setAppState(AppState.BookmarksView);
-    setViewingBookmarks(true);
-  };
-
   return (
     <>
-      <header>
-        <div className="search-nav-buttons">
-          <span>
+      <div className="transactions-page">
+        <div className="transactions-container">
+          {transactions.map((item) => (
             <button
-              className="back-forward-button"
-              onClick={() => {
-                setMonth(getMonthAndYear(decrementMonth(month)));
-              }}
+              key={item.id}
+              onClick={() => setSelectedTransactionId(item.id)}
+              className="transaction-summary"
             >
-              {"<"}
+              <DatedTransactionSummaryView
+                date={item.dateTime}
+                type={item.transactionType}
+                category={item.categoryName}
+                amount={item.amount}
+                merchant={item.merchant}
+                notes={item.notes}
+              />
             </button>
-            <label>{showMonthAndYear(month)}</label>
-            <button
-              className="back-forward-button"
-              onClick={() => {
-                setMonth(getMonthAndYear(incrementMonth(month)));
-              }}
-            >
-              {">"}
-            </button>
-          </span>
-          <button>Search</button>
+          ))}
         </div>
-        <div className="main-nav-buttons">
-          <button
-            className={
-              appState === AppState.DailyTransactionListView
-                ? "selected-button"
-                : ""
-            }
-          >
-            Daily
-          </button>
-          <button>Weekly</button>
-          <button>Calendar</button>
-          <button>Settings</button>
-          <button onClick={viewBookmarks}>Bookmarks</button>
-        </div>
-      </header>
-      <main>
-        <div className="transactions-page">
-          <div className="transactions-container">
-            {transactions.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setSelectedTransactionId(item.id)}
-                className="transaction-summary"
-              >
-                <DatedTransactionSummaryView
-                  date={item.dateTime}
-                  type={item.transactionType}
-                  category={item.categoryName}
-                  amount={item.amount}
-                  merchant={item.merchant}
-                  notes={item.notes}
-                />
-              </button>
-            ))}
-          </div>
-          <button
-            className="transactions-add-transaction-button"
-            onClick={() => setSelectedTransactionId(-1)}
-          >
-            Add Transaction
-          </button>
-        </div>
-      </main>
+        <button
+          className="transactions-add-transaction-button"
+          onClick={() => setSelectedTransactionId(-1)}
+        >
+          Add Transaction
+        </button>
+      </div>
     </>
   );
-}
-
-function getMonthAndYear(date: Date): Date {
-  let year = date.getFullYear();
-  let month = date.getMonth();
-  return new Date(year, month);
-}
-
-function showMonthAndYear(date: Date): string {
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
-}
-
-function decrementMonth(date: Date): Date {
-  return new Date(date.setMonth(date.getMonth() - 1));
-}
-
-function incrementMonth(date: Date): Date {
-  return new Date(date.setMonth(date.getMonth() + 1));
 }
 
 export default DailyTransactionListView;
