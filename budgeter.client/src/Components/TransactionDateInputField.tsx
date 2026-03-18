@@ -78,18 +78,20 @@ function TransactionDateInputField({ label, property, setProperty }: props) {
   return (
     <div className="transactionInputField">
       <label className="label">{label}</label>
-      <input
-        name={label}
-        type="date"
-        value={dateValue}
-        onChange={handleDateChange}
-      />
-      <input
-        name={label}
-        type="time"
-        value={timeValue}
-        onChange={handleTimeChange}
-      />
+      <span className="span-with-no-margin">
+        <input
+          name={label}
+          type="date"
+          value={dateValue}
+          onChange={handleDateChange}
+        />
+        <input
+          name={label}
+          type="time"
+          value={timeValue}
+          onChange={handleTimeChange}
+        />
+      </span>
     </div>
   );
 }

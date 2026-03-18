@@ -5,6 +5,30 @@ interface props {
 }
 
 function TransactionNumberInputField({ label, property, setProperty }: props) {
+  const displayValue = property.toFixed(2);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+
+    if (rawValue === "") {
+      setProperty(0);
+      return;
+    }
+
+    const numValue = limitTwoDecimalPlaces(rawValue);
+    setProperty(numValue);
+  };
+
+  const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+
+    if (isNaN(value)) {
+      setProperty(0);
+    } else {
+      setProperty(Math.round(value * 100) / 100);
+    }
+  };
+
   return (
     <div className="transactionInputField">
       <label className="label">{label}</label>
@@ -14,10 +38,9 @@ function TransactionNumberInputField({ label, property, setProperty }: props) {
         step="0.01"
         min="0"
         placeholder="0.00"
-        value={property}
-        onChange={(e) =>
-          setProperty(limitTwoDecimalPlaces(e.target.value) || 0)
-        }
+        value={displayValue}
+        onChange={onChange}
+        onBlur={onBlur}
       />
     </div>
   );
