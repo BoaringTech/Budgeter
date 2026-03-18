@@ -1,7 +1,9 @@
+import type { TransactionTypes } from "../Enums/TransactionTypes";
 import "../StyleSheets/TransactionSummary.css";
 
 interface props {
   date: Date;
+  type: TransactionTypes;
   category: string | null;
   amount: number | null;
   merchant: string | null;
@@ -10,6 +12,7 @@ interface props {
 
 function DatedTransactionSummaryView({
   date,
+  type,
   category,
   amount,
   merchant,
@@ -41,13 +44,21 @@ function DatedTransactionSummaryView({
         <p className="merchant">{merchant}</p>
         <p className="note">{notes}</p>
       </div>
-      <p className="amount">{formatAmount(amount || 0)}</p>
+      <p className={"amount" + getColorClass(type)}>
+        {formatAmount(amount || 0)}
+      </p>
     </>
   );
 }
 
 function formatAmount(amount: number): string {
   return amount.toFixed(2);
+}
+
+function getColorClass(type: TransactionTypes) {
+  if (type === "Income") return " income";
+  if (type === "Expense") return " expense";
+  return "";
 }
 
 export default DatedTransactionSummaryView;

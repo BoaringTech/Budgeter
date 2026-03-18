@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Transaction } from "../Interfaces/Transaction";
 import type { TransactionTypes } from "../Enums/TransactionTypes";
 import TransactionTypeSelection from "./TransactionTypeSelection";
@@ -66,6 +66,12 @@ function TransactionView({
   const [deleting, setDeleting] = useState(false);
   const [, setError] = useState(null);
   const [, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (changedTransactionType === "Transfer") {
+      setMerchant(null);
+    }
+  }, [changedTransactionType]);
 
   // Create Transaction Function
   const createTransaction = async (newTransaction: Transaction) => {
@@ -255,11 +261,13 @@ function TransactionView({
             property={changedAmount}
             setProperty={setAmount}
           />
-          <TransactionStringInputField
-            label="Merchant"
-            property={changedMerchant}
-            setProperty={setMerchant}
-          />
+          {changedTransactionType !== "Transfer" && (
+            <TransactionStringInputField
+              label={setMerchantLabel(changedTransactionType)}
+              property={changedMerchant}
+              setProperty={setMerchant}
+            />
+          )}
           <TransactionStringInputField
             label="Note"
             property={changedNote}
@@ -282,6 +290,12 @@ function TransactionView({
       </main>
     </>
   );
+}
+
+function setMerchantLabel(type: TransactionTypes) {
+  if (type === "Expense") return "Merchant";
+  if (type === "Income") return "Source";
+  return "";
 }
 
 export default TransactionView;

@@ -25,6 +25,45 @@
   justify-content: space-between;
 }
 
+.income {
+  color:rgb(65, 148, 243);
+}
+
+.expense {
+  color:rgb(253, 63, 63);
+}
+
+.transfer {
+  color: whitesmoke
+}
+
+.income-button {
+  border: 1px solid rgb(65, 148, 243);
+}
+
+.income-button:hover {
+  border: 1px solid rgb(65, 148, 243);
+  cursor: default;
+}
+
+.expense-button {
+  border: 1px solid rgb(253, 63, 63);
+}
+
+.expense-button:hover {
+  border: 1px solid rgb(253, 63, 63);
+  cursor: default;
+}
+
+.transfer-button {
+  border: 1px solid whitesmoke;
+}
+
+.transfer-button:hover {
+  border: 1px solid whitesmoke;
+  cursor: default;
+}
+
 .label {
   text-align: left;
   font-weight: bold;

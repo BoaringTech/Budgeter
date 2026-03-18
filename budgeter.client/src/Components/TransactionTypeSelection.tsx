@@ -13,6 +13,9 @@ function TransactionTypeSelection({
     <div className="transactionSelectionButtons">
       <button
         type="button"
+        className={
+          selectedTransactionType === "Income" ? "income income-button" : ""
+        }
         disabled={selectedTransactionType === "Income"}
         onClick={() => setTransactionType("Income")}
       >
@@ -20,6 +23,9 @@ function TransactionTypeSelection({
       </button>
       <button
         type="button"
+        className={
+          selectedTransactionType === "Expense" ? "expense expense-button" : ""
+        }
         disabled={selectedTransactionType === "Expense"}
         onClick={() => setTransactionType("Expense")}
       >
@@ -27,6 +33,11 @@ function TransactionTypeSelection({
       </button>
       <button
         type="button"
+        className={
+          selectedTransactionType === "Transfer"
+            ? "transfer transfer-button"
+            : ""
+        }
         disabled={selectedTransactionType === "Transfer"}
         onClick={() => setTransactionType("Transfer")}
       >

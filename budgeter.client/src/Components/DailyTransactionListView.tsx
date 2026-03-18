@@ -80,6 +80,7 @@ function DailyTransactionListView({
               >
                 <DatedTransactionSummaryView
                   date={item.dateTime}
+                  type={item.transactionType}
                   category={item.categoryName}
                   amount={item.amount}
                   merchant={item.merchant}
