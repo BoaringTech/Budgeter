@@ -2,17 +2,20 @@ import { useState, useEffect } from "react";
 import type { Transaction } from "./Interfaces/Transaction";
 import DailyTransactionListView from "./Components/DailyTransactionListView";
 import TransactionView from "./Components/TransactionView";
+import AppState from "./Enums/AppState";
 
 import "./App.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
+  const [appState, setAppState] = useState<AppState>(
+    AppState.DailyTransactionListView,
+  );
   const [selectedTransactionId, setSelectedTransactionId] = useState<
     number | null
   >(null);
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
-  const [refreshDate, setRefreshDate] = useState(new Date());
 
   // Get transaction to display
   useEffect(() => {
@@ -27,6 +30,7 @@ function App() {
         .then((response) => response.json())
         .then((data) => {
           setSelectedTransaction(data);
+          setAppState(AppState.TransactionView);
         });
       return;
     }
@@ -46,21 +50,22 @@ function App() {
       notes: null,
     };
     setSelectedTransaction(newTransaction);
+    setAppState(AppState.TransactionView);
   }, [selectedTransactionId]);
 
-  useEffect(() => {}, [refreshDate]);
+  useEffect(() => {}, [appState]);
 
   return (
     // Display the list of transactions when nothing is selected and loaded
     // or display the transaction details that is selected and loaded
     <>
-      {!selectedTransaction && (
+      {appState === AppState.DailyTransactionListView && (
         <DailyTransactionListView
           setSelectedTransactionId={setSelectedTransactionId}
-          refreshTrigger={refreshDate}
+          appState={appState}
         />
       )}
-      {selectedTransaction && (
+      {appState == AppState.TransactionView && selectedTransaction && (
         <TransactionView
           id={selectedTransaction.id}
           user={selectedTransaction.userName}
@@ -75,7 +80,7 @@ function App() {
           note={selectedTransaction.notes}
           setSelectedTransactionId={setSelectedTransactionId}
           setSelectedTransaction={setSelectedTransaction}
-          setRefreshDate={setRefreshDate}
+          setAppState={setAppState}
         />
       )}
     </>

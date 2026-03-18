@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 import type { Transaction } from "../Interfaces/Transaction";
 import TransactionSummaryView from "./TransactionSummaryView";
+import AppState from "../Enums/AppState";
 
 import "../StyleSheets/TransactionSummary.css";
 import "../StyleSheets/DailyTransactionListView.css";
 
 interface props {
   setSelectedTransactionId: (transaction: number | null) => void;
-  refreshTrigger: Date;
+  appState: AppState;
 }
 
 function DailyTransactionListView({
   setSelectedTransactionId,
-  refreshTrigger,
+  appState,
 }: props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [month, setMonth] = useState(getMonthAndYear(new Date()));
@@ -29,7 +30,7 @@ function DailyTransactionListView({
       .then((data) => {
         setTransactions(data);
       });
-  }, [refreshTrigger, month]);
+  }, [appState, month]);
 
   return (
     <>

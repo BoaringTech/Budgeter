@@ -48,6 +48,14 @@ namespace Budgeter.Server.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Transaction>> GetAllBookmarkedTransactionsAsync()
+        {
+            return await _context.Transactions
+                .Where(t => t.Bookmarked)
+                .OrderByDescending(t => t.Date)
+                .ToListAsync();
+        }
+
         public async Task<Transaction?> GetTransactionByIdAsync(int id)
         {
             var transaction = await _context.Transactions

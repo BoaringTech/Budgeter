@@ -43,6 +43,15 @@ namespace Budgeter.Server.Controllers
             return Ok(transactionDTO);
         }
 
+        // GET /transactions/bookmarks
+        [HttpGet("bookmarks")]
+        public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetBookmarkedTransactions()
+        {
+            IEnumerable<Transaction> transactions = await _transactionRepository.GetAllBookmarkedTransactionsAsync();
+            IEnumerable<TransactionDTO> transactionsDTO = transactions.Select(_transactionService.TranslateTransaction);
+            return Ok(transactionsDTO);
+        }
+
         // GET /transactions/time?year={year}&month={month}
         [HttpGet("time")]
         public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsByDateRange(

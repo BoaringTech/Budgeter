@@ -4,6 +4,7 @@ import type { TransactionTypes } from "../Enums/TransactionTypes";
 import TransactionTypeSelection from "./TransactionTypeSelection";
 import TransactionStringInputField from "./TransactionStringInputField";
 import TransactionNumberInputField from "./TransactionNumberInputField";
+import AppState from "../Enums/AppState";
 
 import TransactionSaveButtons from "./TransactionSaveButtons";
 import TransactionButtonInputField from "./TransactionButtonInputField";
@@ -26,7 +27,7 @@ interface props {
   note: string | null;
   setSelectedTransactionId: (id: number | null) => void;
   setSelectedTransaction: (transaction: Transaction | null) => void;
-  setRefreshDate: (date: Date) => void;
+  setAppState: (appState: AppState) => void;
 }
 
 function TransactionView({
@@ -43,7 +44,7 @@ function TransactionView({
   note,
   setSelectedTransactionId,
   setSelectedTransaction,
-  setRefreshDate,
+  setAppState,
 }: props) {
   // Transaction States
   const [changedUser, setUser] = useState(user);
@@ -90,7 +91,6 @@ function TransactionView({
       setSuccess(true);
 
       // Only navigate back after successful update
-      setRefreshDate(new Date()); // Trigger list refresh
       traverseBack();
 
       return data;
@@ -127,7 +127,6 @@ function TransactionView({
       setSuccess(true);
 
       // Only navigate back after successful update
-      setRefreshDate(new Date()); // Trigger list refresh
       traverseBack();
 
       return data;
@@ -159,7 +158,6 @@ function TransactionView({
       setSuccess(true);
 
       // Only navigate back after successful update
-      setRefreshDate(new Date()); // Trigger list refresh
       traverseBack();
 
       return data;
@@ -210,7 +208,7 @@ function TransactionView({
   const traverseBack = () => {
     setSelectedTransactionId(null);
     setSelectedTransaction(null);
-    setRefreshDate(new Date());
+    setAppState(AppState.DailyTransactionListView);
   };
 
   return (
