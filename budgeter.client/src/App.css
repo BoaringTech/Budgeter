@@ -35,6 +35,7 @@ button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  gap: 32px;
 }
 
 .income {
@@ -89,7 +90,11 @@ button {
 .label {
   text-align: left;
   font-weight: bold;
-  margin: 0;
+  margin: auto 0;
+}
+
+.span-with-no-margin {
+  margin: 4px 0;
 }
 
 input {
