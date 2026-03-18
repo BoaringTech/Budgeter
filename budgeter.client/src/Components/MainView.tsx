@@ -2,6 +2,7 @@ import { useState } from "react";
 import AppState from "../Enums/AppState";
 import DailyTransactionListView from "./DailyTransactionListView";
 import type { Transaction } from "../Interfaces/Transaction";
+import DateNavigationButtons from "./DateNavigationButtons";
 
 interface props {
   appState: AppState;
@@ -28,25 +29,15 @@ function MainView({
     <>
       <header>
         <div className="search-nav-buttons">
-          <span>
-            <button
-              className="back-forward-button"
-              onClick={() => {
-                setMonth(getMonthAndYear(decrementMonth(month)));
-              }}
-            >
-              {"<"}
-            </button>
-            <label>{showMonthAndYear(month)}</label>
-            <button
-              className="back-forward-button"
-              onClick={() => {
-                setMonth(getMonthAndYear(incrementMonth(month)));
-              }}
-            >
-              {">"}
-            </button>
-          </span>
+          {appState === AppState.DailyTransactionListView && (
+            <DateNavigationButtons
+              date={month}
+              setDate={() => setMonth(getMonthAndYear(month))}
+              showDate={showMonthAndYear}
+              increment={incrementMonth}
+              decrement={decrementMonth}
+            />
+          )}
           <span>
             <button>Settings</button>
             <button>Search</button>
