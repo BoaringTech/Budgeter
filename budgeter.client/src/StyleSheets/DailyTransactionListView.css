@@ -7,7 +7,7 @@
 }
 
 .transactions-container {
-  max-height: 600px;
+  height: 600px;
   min-width: 500px;
   overflow-y: auto; /* Show scrollbar only when needed */
   overflow-x: hidden;
@@ -36,8 +36,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 0px;
-  width: 95%;
-  margin: 0 auto;
+  width: 96%;
+  margin: 0 0 0 8px;
 }
 
 .main-nav-buttons button {
@@ -45,4 +45,10 @@
   width: 100%;
   border-radius: 0; 
   background-color: transparent;
+}
+
+.search-nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 8px;
 }

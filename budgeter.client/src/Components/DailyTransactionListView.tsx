@@ -43,22 +43,26 @@ function DailyTransactionListView({
   return (
     <>
       <header>
-        <div>
-          <button
-            onClick={() => {
-              setMonth(getMonthAndYear(decrementMonth(month)));
-            }}
-          >
-            {"<"}
-          </button>
-          <label>{showMonthAndYear(month)}</label>
-          <button
-            onClick={() => {
-              setMonth(getMonthAndYear(incrementMonth(month)));
-            }}
-          >
-            {">"}
-          </button>
+        <div className="search-nav-buttons">
+          <span>
+            <button
+              className="back-forward-button"
+              onClick={() => {
+                setMonth(getMonthAndYear(decrementMonth(month)));
+              }}
+            >
+              {"<"}
+            </button>
+            <label>{showMonthAndYear(month)}</label>
+            <button
+              className="back-forward-button"
+              onClick={() => {
+                setMonth(getMonthAndYear(incrementMonth(month)));
+              }}
+            >
+              {">"}
+            </button>
+          </span>
           <button>Search</button>
         </div>
         <div className="main-nav-buttons">

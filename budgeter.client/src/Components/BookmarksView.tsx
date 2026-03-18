@@ -45,7 +45,7 @@ function BookmarksView({
     <>
       <header>
         <div className="bookmarks-header">
-          <button className="back-button" onClick={exit}>
+          <button className="back-forward-button" onClick={exit}>
             {"<"}
           </button>
           <h3>Bookmarks</h3>

@@ -76,6 +76,16 @@ button {
   cursor: default;
 }
 
+.back-forward-button {
+    padding: 4px 8px;
+    background-color: transparent;
+    border: none
+}
+
+.back-forward-button:hover {
+    border: none;
+}
+
 .label {
   text-align: left;
   font-weight: bold;
