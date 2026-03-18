@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import type { Transaction } from "../Interfaces/Transaction";
-import TransactionSummaryView from "./TransactionSummaryView";
 import AppState from "../Enums/AppState";
 
 import "../StyleSheets/DailyTransactionListView.css";
+import DatedTransactionSummaryView from "./DatedTransactionSummaryView";
 
 interface props {
   appState: AppState;
@@ -64,8 +64,8 @@ function DailyTransactionListView({
         </div>
         <div>
           <button>Daily</button>
-          <button>Calendar</button>
           <button>Weekly</button>
+          <button>Calendar</button>
           <button onClick={viewBookmarks}>Bookmarks</button>
         </div>
       </header>
@@ -78,7 +78,8 @@ function DailyTransactionListView({
                 onClick={() => setSelectedTransactionId(item.id)}
                 className="transaction-summary"
               >
-                <TransactionSummaryView
+                <DatedTransactionSummaryView
+                  date={item.dateTime}
                   category={item.categoryName}
                   amount={item.amount}
                   merchant={item.merchant}
