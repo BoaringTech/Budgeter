@@ -16,6 +16,16 @@
     align-items: center;
 }
 
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
 .category { 
     white-space: nowrap;
     overflow: hidden;

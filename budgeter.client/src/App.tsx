@@ -3,6 +3,7 @@ import type { Transaction } from "./Interfaces/Transaction";
 import DailyTransactionListView from "./Components/DailyTransactionListView";
 import TransactionView from "./Components/TransactionView";
 import AppState from "./Enums/AppState";
+import BookmarksView from "./Components/BookmarksView";
 
 import "./App.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -61,8 +62,9 @@ function App() {
     <>
       {appState === AppState.DailyTransactionListView && (
         <DailyTransactionListView
-          setSelectedTransactionId={setSelectedTransactionId}
           appState={appState}
+          setSelectedTransactionId={setSelectedTransactionId}
+          setAppState={setAppState}
         />
       )}
       {appState == AppState.TransactionView && selectedTransaction && (
@@ -80,6 +82,13 @@ function App() {
           note={selectedTransaction.notes}
           setSelectedTransactionId={setSelectedTransactionId}
           setSelectedTransaction={setSelectedTransaction}
+          setAppState={setAppState}
+        />
+      )}
+      {appState === AppState.BookmarksView && (
+        <BookmarksView
+          appState={appState}
+          setSelectedTransactionId={setSelectedTransactionId}
           setAppState={setAppState}
         />
       )}

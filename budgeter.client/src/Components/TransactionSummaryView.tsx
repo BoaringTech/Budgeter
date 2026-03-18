@@ -1,3 +1,5 @@
+import "../StyleSheets/TransactionSummary.css";
+
 interface props {
   category: string | null;
   amount: number | null;

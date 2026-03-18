@@ -3,17 +3,18 @@ import type { Transaction } from "../Interfaces/Transaction";
 import TransactionSummaryView from "./TransactionSummaryView";
 import AppState from "../Enums/AppState";
 
-import "../StyleSheets/TransactionSummary.css";
 import "../StyleSheets/DailyTransactionListView.css";
 
 interface props {
-  setSelectedTransactionId: (transaction: number | null) => void;
   appState: AppState;
+  setSelectedTransactionId: (transaction: number | null) => void;
+  setAppState: (appState: AppState) => void;
 }
 
 function DailyTransactionListView({
-  setSelectedTransactionId,
   appState,
+  setSelectedTransactionId,
+  setAppState,
 }: props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [month, setMonth] = useState(getMonthAndYear(new Date()));
@@ -58,7 +59,9 @@ function DailyTransactionListView({
           <button>Daily</button>
           <button>Calendar</button>
           <button>Weekly</button>
-          <button>Bookmarks</button>
+          <button onClick={() => setAppState(AppState.BookmarksView)}>
+            Bookmarks
+          </button>
           <button>Notes</button>
         </div>
       </header>
