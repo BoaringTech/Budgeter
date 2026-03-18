@@ -215,9 +215,6 @@ function TransactionView({
 
   return (
     <>
-      <header>
-        <h2 className="transaction-header">{changedTransactionType}</h2>
-      </header>
       <main>
         <form>
           <TransactionTypeSelection

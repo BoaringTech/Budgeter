@@ -19,12 +19,17 @@ function DailyTransactionListView({
 
   useEffect(() => {
     // Fetch daily transactions
-    fetch("/api/transactions")
+    fetch(
+      "/api/transactions/time?year=" +
+        month.getFullYear() +
+        "&month=" +
+        (month.getMonth() + 1),
+    )
       .then((response) => response.json())
       .then((data) => {
         setTransactions(data);
       });
-  }, [refreshTrigger]);
+  }, [refreshTrigger, month]);
 
   return (
     <>
