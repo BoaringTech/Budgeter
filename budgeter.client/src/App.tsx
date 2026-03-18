@@ -6,12 +6,12 @@ import AppState from "./Enums/AppState";
 import BookmarksView from "./Components/BookmarksView";
 
 import "./App.css";
-import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
   const [appState, setAppState] = useState<AppState>(
     AppState.DailyTransactionListView,
   );
+  const [viewingBookmarks, setViewingBookmarks] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState<
     number | null
   >(null);
@@ -65,6 +65,7 @@ function App() {
           appState={appState}
           setSelectedTransactionId={setSelectedTransactionId}
           setAppState={setAppState}
+          setViewingBookmarks={setViewingBookmarks}
         />
       )}
       {appState == AppState.TransactionView && selectedTransaction && (
@@ -80,6 +81,7 @@ function App() {
           merchant={selectedTransaction.merchant}
           bookmarked={selectedTransaction.bookmarked}
           note={selectedTransaction.notes}
+          viewingBookmarks={viewingBookmarks}
           setSelectedTransactionId={setSelectedTransactionId}
           setSelectedTransaction={setSelectedTransaction}
           setAppState={setAppState}
@@ -90,6 +92,7 @@ function App() {
           appState={appState}
           setSelectedTransactionId={setSelectedTransactionId}
           setAppState={setAppState}
+          setViewingBookmarks={setViewingBookmarks}
         />
       )}
     </>

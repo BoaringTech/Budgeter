@@ -10,12 +10,14 @@ interface props {
   appState: AppState;
   setSelectedTransactionId: (transaction: number | null) => void;
   setAppState: (appState: AppState) => void;
+  setViewingBookmarks: (viewingBookmarks: boolean) => void;
 }
 
 function BookmarksView({
   appState,
   setSelectedTransactionId,
   setAppState,
+  setViewingBookmarks,
 }: props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
@@ -33,12 +35,15 @@ function BookmarksView({
     setAppState(AppState.TransactionView);
   };
 
+  const exit = () => {
+    setViewingBookmarks(false);
+    setAppState(AppState.DailyTransactionListView);
+  };
+
   return (
     <>
       <header>
-        <button onClick={() => setAppState(AppState.DailyTransactionListView)}>
-          {"<"}
-        </button>
+        <button onClick={exit}>{"<"}</button>
         <label>Bookmarks</label>
       </header>
       <main>
@@ -64,13 +69,6 @@ function BookmarksView({
       </main>
     </>
   );
-}
-
-function showMonthAndYear(date: Date): string {
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
 }
 
 export default BookmarksView;

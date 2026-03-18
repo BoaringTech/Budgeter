@@ -9,12 +9,14 @@ interface props {
   appState: AppState;
   setSelectedTransactionId: (transaction: number | null) => void;
   setAppState: (appState: AppState) => void;
+  setViewingBookmarks: (viewingBookmarks: boolean) => void;
 }
 
 function DailyTransactionListView({
   appState,
   setSelectedTransactionId,
   setAppState,
+  setViewingBookmarks,
 }: props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [month, setMonth] = useState(getMonthAndYear(new Date()));
@@ -32,6 +34,11 @@ function DailyTransactionListView({
         setTransactions(data);
       });
   }, [appState, month]);
+
+  const viewBookmarks = () => {
+    setAppState(AppState.BookmarksView);
+    setViewingBookmarks(true);
+  };
 
   return (
     <>
@@ -59,9 +66,7 @@ function DailyTransactionListView({
           <button>Daily</button>
           <button>Calendar</button>
           <button>Weekly</button>
-          <button onClick={() => setAppState(AppState.BookmarksView)}>
-            Bookmarks
-          </button>
+          <button onClick={viewBookmarks}>Bookmarks</button>
           <button>Notes</button>
         </div>
       </header>

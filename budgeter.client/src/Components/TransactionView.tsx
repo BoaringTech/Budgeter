@@ -25,6 +25,7 @@ interface props {
   merchant: string | null;
   bookmarked: boolean;
   note: string | null;
+  viewingBookmarks: boolean;
   setSelectedTransactionId: (id: number | null) => void;
   setSelectedTransaction: (transaction: Transaction | null) => void;
   setAppState: (appState: AppState) => void;
@@ -42,6 +43,7 @@ function TransactionView({
   merchant,
   bookmarked,
   note,
+  viewingBookmarks,
   setSelectedTransactionId,
   setSelectedTransaction,
   setAppState,
@@ -208,7 +210,11 @@ function TransactionView({
   const traverseBack = () => {
     setSelectedTransactionId(null);
     setSelectedTransaction(null);
-    setAppState(AppState.DailyTransactionListView);
+    setAppState(
+      viewingBookmarks
+        ? AppState.BookmarksView
+        : AppState.DailyTransactionListView,
+    );
   };
 
   return (
