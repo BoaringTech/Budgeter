@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import AppState from "../Enums/AppState";
 
 import "../StyleSheets/Settings.css";
@@ -17,7 +18,17 @@ function SettingsView({
   setTrackUsers,
   setTrackAccounts,
 }: props) {
+  const initialTrackAccounts = useRef(trackAccounts);
+  const initialTrackUsers = useRef(trackUsers);
+
   const exit = () => {
+    if (
+      initialTrackAccounts.current !== trackAccounts ||
+      initialTrackUsers.current !== trackUsers
+    ) {
+      postSettings();
+    }
+
     setAppState(AppState.DailyTransactionListView);
   };
 
@@ -35,6 +46,28 @@ function SettingsView({
 
   const setTrackAccountsOn = () => {
     setTrackAccounts(true);
+  };
+
+  const postSettings = async () => {
+    if (initialTrackAccounts.current != trackAccounts) {
+      fetch("/api/settings/1", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ enabled: trackAccounts }),
+      });
+    }
+
+    if (initialTrackUsers.current != trackUsers) {
+      fetch("/api/settings/2", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ enabled: trackUsers }),
+      });
+    }
   };
 
   return (
