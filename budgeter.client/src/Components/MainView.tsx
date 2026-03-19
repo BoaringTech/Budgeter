@@ -29,6 +29,10 @@ function MainView({
     setViewingBookmarks(true);
   };
 
+  const viewSettings = () => {
+    setAppState(AppState.SettingsView);
+  };
+
   return (
     <>
       <header>
@@ -43,7 +47,7 @@ function MainView({
             />
           )}
           <span>
-            <button>Settings</button>
+            <button onClick={viewSettings}>Settings</button>
             <button>Search</button>
           </span>
         </div>
