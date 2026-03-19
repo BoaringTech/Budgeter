@@ -2,10 +2,16 @@ import { useRef } from "react";
 import AppState from "../Enums/AppState";
 
 import "../StyleSheets/Settings.css";
+import UserListView from "./UserListView";
+import type { User } from "../Interfaces/User";
+import type { Account } from "../Interfaces/Account";
+import AccountListView from "./AccountListView";
 
 interface props {
   trackUsers: boolean;
   trackAccounts: boolean;
+  users: User[];
+  accounts: Account[];
   setAppState: (appState: AppState) => void;
   setTrackUsers: (trackUsers: boolean) => void;
   setTrackAccounts: (trackAccounts: boolean) => void;
@@ -14,6 +20,8 @@ interface props {
 function SettingsView({
   trackUsers,
   trackAccounts,
+  users,
+  accounts,
   setAppState,
   setTrackUsers,
   setTrackAccounts,
@@ -96,6 +104,7 @@ function SettingsView({
           </button>
         </span>
       </div>
+      {trackUsers && <UserListView users={users} />}
       <div className="settings">
         <h4>Accounts</h4>
         <p>Do you want to track spending by accounts?</p>
@@ -114,6 +123,7 @@ function SettingsView({
           </button>
         </span>
       </div>
+      {trackAccounts && <AccountListView accounts={accounts} />}
       <h4 className="settings">Categories</h4>
     </>
   );

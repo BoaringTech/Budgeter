@@ -13,6 +13,7 @@ namespace Budgeter.Server.Services
                 Id = c.Id,
                 Name = c.Name,
                 Order = c.Order,
+                IsSystem = c.IsSystem
             };
         }
     }

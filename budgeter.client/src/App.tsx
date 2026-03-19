@@ -8,13 +8,14 @@ import MainView from "./Components/MainView";
 import SettingsView from "./Components/SettingsView";
 
 import "./App.css";
+import type { User } from "./Interfaces/User";
+import type { Account } from "./Interfaces/Account";
 
 function App() {
+  // App Viewing States
   const [appState, setAppState] = useState<AppState>(
     AppState.DailyTransactionListView,
   );
-  const [trackUsers, setTrackUsers] = useState(true);
-  const [trackAccounts, setTrackAccounts] = useState(true);
   const [viewingBookmarks, setViewingBookmarks] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState<
     number | null
@@ -22,8 +23,19 @@ function App() {
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
 
-  const [, setLoading] = useState(false);
-  const [, setError] = useState<string | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
+
+  // Settings
+  const [trackUsers, setTrackUsers] = useState(true);
+  const [trackAccounts, setTrackAccounts] = useState(true);
+
+  const [, setSettingsLoading] = useState(false);
+  const [, setSettingsError] = useState<string | null>(null);
+  const [, setUsersLoading] = useState(false);
+  const [, setUsersError] = useState<string | null>(null);
+  const [, setAccountsLoading] = useState(false);
+  const [, setAccountsError] = useState<string | null>(null);
 
   // Get transaction to display
   useEffect(() => {
@@ -65,8 +77,8 @@ function App() {
 
   useEffect(() => {
     const getSettings = async (): Promise<void> => {
-      setLoading(true);
-      setError(null);
+      setSettingsLoading(true);
+      setSettingsError(null);
 
       try {
         const response = await fetch("/api/settings/");
@@ -89,13 +101,61 @@ function App() {
       } catch (error) {
         const errorMessage =
           error instanceof Error ? error.message : "Failed to load settings";
-        setError(errorMessage);
+        setSettingsError(errorMessage);
       } finally {
-        setLoading(false);
+        setSettingsLoading(false);
+      }
+    };
+
+    const getUsers = async (): Promise<void> => {
+      setUsersError(null);
+
+      try {
+        const response = await fetch("/api/users/");
+
+        if (!response.ok) {
+          throw new Error(
+            "Could not retreive users! status: ${response.status}",
+          );
+        }
+
+        const users: User[] = await response.json();
+        setUsers(users);
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : "Failed to load users";
+        setUsersError(errorMessage);
+      } finally {
+        setUsersLoading(false);
+      }
+    };
+
+    const getAccounts = async (): Promise<void> => {
+      setAccountsError(null);
+
+      try {
+        const response = await fetch("/api/accounts/");
+
+        if (!response.ok) {
+          throw new Error(
+            "Could not retreive accounts! status: ${response.status}",
+          );
+        }
+
+        const accounts: Account[] = await response.json();
+        setAccounts(accounts);
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : "Failed to load accounts";
+        setAccountsError(errorMessage);
+      } finally {
+        setAccountsLoading(false);
       }
     };
 
     getSettings();
+    getUsers();
+    getAccounts();
   }, []);
 
   return (
@@ -144,6 +204,8 @@ function App() {
           setAppState={setAppState}
           trackUsers={trackUsers}
           trackAccounts={trackAccounts}
+          users={users}
+          accounts={accounts}
           setTrackUsers={setTrackUsers}
           setTrackAccounts={setTrackAccounts}
         />
