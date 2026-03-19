@@ -7,6 +7,7 @@ namespace Budgeter.Server.Entities
         public DbSet<Account> Accounts { get; set; }
         public DbSet<BudgetSetting> BudgetSettings { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<BooleanSetting> BooleanSettings { get; set; }
         public DbSet<Subcategory> Subcategories { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<User> Users { get; set; }
@@ -117,6 +118,21 @@ namespace Budgeter.Server.Entities
                     Amount = 0,
                     Order = -1,
                     IsSystem = true
+                }
+            );
+
+            modelBuilder.Entity<BooleanSetting>().HasData(
+                new BooleanSetting
+                {
+                    Id = 1,
+                    Name = "TrackAccounts",
+                    Enabled = true,
+                },
+                new BooleanSetting
+                {
+                    Id = 2,
+                    Name = "TrackUsers",
+                    Enabled = true,
                 }
             );
 
