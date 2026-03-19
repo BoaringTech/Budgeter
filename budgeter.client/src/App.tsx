@@ -124,6 +124,8 @@ function App() {
           bookmarked={selectedTransaction.bookmarked}
           note={selectedTransaction.notes}
           viewingBookmarks={viewingBookmarks}
+          trackAccounts={trackAccounts}
+          trackUsers={trackUsers}
           setSelectedTransactionId={setSelectedTransactionId}
           setSelectedTransaction={setSelectedTransaction}
           setAppState={setAppState}

@@ -26,6 +26,8 @@ interface props {
   bookmarked: boolean;
   note: string | null;
   viewingBookmarks: boolean;
+  trackAccounts: boolean;
+  trackUsers: boolean;
   setSelectedTransactionId: (id: number | null) => void;
   setSelectedTransaction: (transaction: Transaction | null) => void;
   setAppState: (appState: AppState) => void;
@@ -44,6 +46,8 @@ function TransactionView({
   bookmarked,
   note,
   viewingBookmarks,
+  trackAccounts,
+  trackUsers,
   setSelectedTransactionId,
   setSelectedTransaction,
   setAppState,
@@ -236,16 +240,20 @@ function TransactionView({
             property={changedDateTime}
             setProperty={setDateTime}
           />
-          <TransactionStringInputField
-            label="User"
-            property={changedUser}
-            setProperty={setUser}
-          />
-          <TransactionStringInputField
-            label="Account"
-            property={changedAccount}
-            setProperty={setAccount}
-          />
+          {trackUsers && (
+            <TransactionStringInputField
+              label="User"
+              property={changedUser}
+              setProperty={setUser}
+            />
+          )}
+          {trackAccounts && (
+            <TransactionStringInputField
+              label="Account"
+              property={changedAccount}
+              setProperty={setAccount}
+            />
+          )}
           <TransactionStringInputField
             label="Category"
             property={changedCategory}
